@@ -44,7 +44,7 @@ app.use('/api/institution', InstitutionRoutes)
 // Serve React frontend
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-const clientBuildPath = path.resolve(__dirname, '../../lms-react-app/build')
+const clientBuildPath = path.resolve(__dirname, '../../../lms-react-app/build')
 
 app.use(express.static(clientBuildPath))
 
