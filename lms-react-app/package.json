@@ -33,7 +33,7 @@
     "sass": "^1.79.3",
     "web-vitals": "^2.1.4"
   },
-  "proxy": "http://192.168.1.102:2000",
+  "proxy": "http://51.21.191.78:5000",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
