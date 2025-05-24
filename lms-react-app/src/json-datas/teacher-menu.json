@@ -1,0 +1,29 @@
+[
+    {
+      "title": "Dashboard",
+      "href": "/teacher/starter",
+      "icon": "bi bi-speedometer2"
+    },
+    {
+      "title": "Courses",
+      "href": "/teacher/courses",
+      "icon": "bi bi-book-half"
+    },
+    {
+      "title": "Tests",
+      "href": "/teacher/test",
+      "icon": "bi bi-pen-fill"
+    },
+    {
+      "title": "Students",
+      "href": "/teacher/users",
+      "icon": "bi bi-people-fill"
+    },
+    {
+      "title": "Approvals",
+      "href": "/teacher/approvals",
+      "icon": "bi bi-shield-fill-check"
+    }
+    
+  ] 
+  

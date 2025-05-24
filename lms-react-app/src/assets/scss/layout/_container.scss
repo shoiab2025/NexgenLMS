@@ -1,0 +1,677 @@
+.pageWrapper {
+  min-height: 100vh;
+}
+
+body {
+  overflow-x: hidden;
+}
+.contentArea {
+  flex-grow: 1;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.card {
+  box-shadow: $card-box-shadow;
+  margin-bottom: 30px;
+}
+
+.circle-box {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 100%;
+  &.lg-box {
+    width: 60px;
+    height: 60px;
+    font-size: 21px;
+    line-height: 60px;
+  }
+}
+.button-group .btn {
+  margin: 3px;
+}
+table th {
+  font-weight: 500;
+}
+
+
+.table>:not(:first-child) {
+  border-top: 2px solid;
+}
+.table-borderless>:not(:first-child) {
+  border-top-width: 0;
+}
+
+#course-home-card-img {
+  height: 200px !important;
+}
+
+#home-list-course .card-body {
+  min-height: 200px;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
+  background-color: #0000008f;
+  padding: 10px 10px;
+  position: relative;
+}
+
+#home-list-course .card-body .card-title{
+  color: #fff;
+  position: absolute;
+  word-break: break-word;
+  bottom: 0;
+}
+
+.truncate-3-lines {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Show only 3 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.home-banner {
+  height: 660px;
+  background-image: url('../../images/home_bg.jpg');
+  background-size: cover;
+  background-position: top center;
+}
+
+.img-container {
+  background-image: url('../../images/bg/code-8779051_1280.png');
+}
+
+h2, .custom-decaration {
+ text-decoration: underline;
+ text-underline-offset: 8px;
+ text-decoration-color: #0147ab;
+ text-decoration-thickness: percentage($number: 0.1);
+ text-decoration-skip: random($limit: 1) ;
+}
+
+.nav-tabs .nav-item .active {
+  background-color: #0147ab;
+  color: #fff;
+}
+
+a {
+  text-decoration: none;
+}
+
+.list-group-item:has(.sub_cards):hover, .unit-card .card-body:hover {
+  background-color: #0147ab;
+  color: #ffffff !important;
+}
+
+/* Target the h5 element inside .list-group-item when it is hovered */
+.list-group-item:has(.sub_cards):hover h5, .unit-card .card-body:hover .card-title {
+  color: #ffffff !important;
+}
+
+.bg_description {
+  background-color: #dbdbdb !important;
+}
+
+.count-text {
+  font-size: 35px;
+}
+
+.iconBadge {
+  position: absolute;
+  top: -20px;
+  left:0;
+  border-radius: 5px;
+  background-color: #0147ab;
+}
+
+.test-form-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+
+.test-form-heading {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.test-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.test-tabs button {
+  padding: 10px 15px;
+  cursor: pointer;
+  border: none;
+  background-color: #eee;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.test-tabs button.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.test-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-weight: bold;
+  margin-block: 5px;
+}
+
+.form-input, .form-select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.question-card, .test-form-container {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  background-color: #fafafa;
+  width: 100%;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.test-button, .pagination-button-user {
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 150px;
+
+}
+
+.test-button-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.test-button-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.test-button-danger {
+  background-color: #dc3545;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  width: 100%;
+  gap: 10px;
+}
+
+.user-list-user {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 30px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.list-heading-user {
+  color: #333;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+.table-container-user {
+  overflow-x: auto;
+}
+
+.user-table-user {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+}
+
+.table-header-user th {
+  background-color: #eee ;
+  color: #000;
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.table-body-user .row-user:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.table-body-user .cell-user {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  color: var(--text-color);
+  text-align: left;
+}
+
+.table-body-user .cell-user:last-child {
+  border-bottom: none;
+}
+
+.role-badge-user {
+  display: inline-block;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: bold;
+  color: #fff;
+}
+
+.role-student {
+  background-color: var(--primary-color); /* Gray */
+}
+
+.role-teacher {
+  background-color: #28a745; /* Green */
+}
+
+.role-admin {
+  background-color: #dc3545; /* Red */
+}
+
+.role-coordinator {
+  background-color: #8a8a8a; /* Red */
+}
+
+.admin-indicator-user {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 0.75em;
+  font-weight: bold;
+}
+
+.admin-indicator-user.is-admin {
+  background-color: #007bff;
+  color: white;
+}
+
+.admin-indicator-user.not-admin {
+  background-color: #e0e0e0;
+  color: #666;
+}
+
+.status-badge-user {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.85em;
+  font-weight: bold;
+}
+
+.status-badge-user.active {
+  background-color: #198754;
+  color: white;
+}
+
+.status-badge-user.blocked {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.actions-cell-user {
+  text-align: right;
+}
+
+.action-button-user {
+  background: #ededed;
+  width: 40px;
+  border: none;
+  padding: 8px;
+  margin-left: 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.action-button-user:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.action-button-user svg.icon-user {
+  width: 18px;
+  height: 18px;
+}
+
+.edit-user {
+  color: #007bff;
+}
+
+.edit-user:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.delete-user {
+  color: #dc3545;
+}
+
+.delete-user:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+.block-user {
+  color: #ffc107;
+}
+
+.block-user:hover {
+  background-color: rgba(255, 193, 7, 0.1);
+}
+
+.unblock-user {
+  color: #28a745;
+}
+
+.unblock-user:hover {
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+.empty-row-user .empty-cell-user {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+}
+
+.filter-input-user {
+  width: 100%;
+  padding: 6px 8px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 0.9em;
+}
+
+.filter-select-user {
+  width: 100%;
+  padding: 6px 8px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 0.9em;
+}
+
+.pagination-button-user {
+  gap: 10px;
+
+}
+
+.pagination-info-user {
+  margin-inline: 20px;
+}
+
+.header-cell-user {
+  color: #333 !important;
+}
+
+/* this is approval styles*/
+
+:root {
+  --primary-color: #0147ab;
+  --text-color: #333;
+}
+
+.approval-list {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 30px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.list-heading-approval {
+  color: #333;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+.table-container-approval {
+  overflow-x: auto;
+}
+
+.approval-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+}
+
+.approval-table th {
+  background-color: #ededed;
+  color: #333;
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.approval-table td {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  color: var(--text-color);
+  text-align: left;
+}
+
+.approval-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.85em;
+  font-weight: bold;
+}
+
+.status-pending {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.status-approved {
+  background-color: #198754;
+  color: white;
+}
+
+.status-rejected {
+  background-color: #dc3545;
+  color: white;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.action-button-approve,
+.action-button-reject {
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85em;
+  transition: background-color 0.3s ease;
+}
+
+.action-button-approve {
+  background-color: #198754;
+  color: white;
+}
+
+.action-button-approve:hover {
+  background-color: #157347;
+}
+
+.action-button-reject {
+  background-color: #dc3545;
+  color: white;
+}
+
+.action-button-reject:hover {
+  background-color: #bb2d3b;
+}
+
+.empty-row-approval td {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+}
+
+.tab-container {
+  background-color: #ffffff;
+  padding: 20px;
+}
+
+.tab-button-user {
+  margin-right: 10px;
+  padding: 6px 12px;
+  border: none;
+  background: #c5c5c5;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.tab-button-user.active-tab-user {
+  background-color: #0147ab;
+  color: white;
+}
+
+.user-form {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 24px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.user-form h3 {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 1.5rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.checkbox-group {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.form-actions {
+  text-align: center;
+  margin-top: 24px;
+  width: '100%';
+}
+
+button {
+  background-color: #0147ab;
+  border: none;
+  color: white;
+  padding: 10px 22px;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #0147ab;
+}
+
+label {
+  color: #0147ab;
+}
+
+.filter-input {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  padding: 4px 8px;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.global-search-box input{
+  width: 300px;
+  padding-inline: 10px;
+  border-radius: 5px;
+  margin-block: 5px;
+}
+
+.filter-buttons-approval button {
+  min-width: 80px;
+}

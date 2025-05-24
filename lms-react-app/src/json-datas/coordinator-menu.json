@@ -1,0 +1,13 @@
+[
+    {
+      "title": "Institutions",
+      "href": "/coordinator/institution",
+      "icon": "bi bi-buildings-fill"
+    },
+   {
+      "title": "Teacher",
+      "href": "/coordinator/teacher-approvals",
+      "icon": "bi bi-ui-checks fs-4"
+    }
+] 
+  
