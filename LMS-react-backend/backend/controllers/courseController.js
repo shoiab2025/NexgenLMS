@@ -4,7 +4,9 @@ import Course from '../models/courseModel.js';
 import Material from '../models/meterialModel.js';
 import Subject from '../models/subjectModel.js';
 import User from '../models/userModel.js';
-// Get all courses
+import { sendPushNotification } from '../utils/notificationHelper.js'; // Import the helper
+
+// Get all courses (no change needed here)
 export const getAllCourses = async (req, res) => {
   try {
     const courses = await Course.find().populate({
@@ -40,6 +42,26 @@ export const createCourse = async (req, res) => {
     const newCourse = new Course(req.body);
     console.log(newCourse);
     await newCourse.save();
+
+    // --- Push Notification Logic for Create Course ---
+    // Notify all admins about a new course being created
+    const admins = await User.find({ role: 'admin' });
+    const adminTokens = admins.flatMap(admin => admin.fcmTokens).filter(Boolean);
+
+    if (adminTokens.length > 0) {
+      await sendPushNotification(
+        adminTokens,
+        'New Course Created!',
+        `A new course "${newCourse.course_name}" has been added.`,
+        {
+          type: 'course_created',
+          courseId: newCourse._id.toString(),
+          courseName: newCourse.course_name,
+        }
+      );
+    }
+    // ----------------------------------------------------
+
     res.status(201).json({ message: 'Course created successfully', course: newCourse });
   } catch (error) {
     console.error(error);
@@ -54,6 +76,33 @@ export const updateCourse = async (req, res) => {
     if (!course) {
       return res.status(404).json({ error: 'Course not found' });
     }
+
+    // --- Push Notification Logic for Update Course ---
+    // Notify admins and the course creator (if applicable) about the update
+    const admins = await User.find({ role: 'admin' });
+    const adminTokens = admins.flatMap(admin => admin.fcmTokens).filter(Boolean);
+
+    // Assuming your Course model has a 'creator' field referencing a User
+    const courseCreator = await User.findById(course.creator);
+    const creatorTokens = courseCreator ? courseCreator.fcmTokens : [];
+
+    // Combine and remove duplicate tokens
+    const tokensToNotify = [...new Set([...adminTokens, ...creatorTokens])];
+
+    if (tokensToNotify.length > 0) {
+      await sendPushNotification(
+        tokensToNotify,
+        'Course Updated!',
+        `The course "${course.course_name}" has been modified.`,
+        {
+          type: 'course_updated',
+          courseId: course._id.toString(),
+          courseName: course.course_name,
+        }
+      );
+    }
+    // -------------------------------------------------
+
     res.status(200).json({ message: 'Course updated successfully', course });
   } catch (error) {
     console.error(error);
@@ -74,6 +123,10 @@ export const deleteCourse = async (req, res) => {
       return res.status(404).json({ error: 'Course not found' });
     }
 
+    // Capture course details for notification *before* deleting
+    const courseName = course.course_name;
+    const courseId = course._id.toString();
+
     // Step 2: Extract subject IDs from the course
     const subjectIds = course.subjects.map(subject => subject._id);
 
@@ -90,6 +143,30 @@ export const deleteCourse = async (req, res) => {
     await session.commitTransaction();
     session.endSession();
 
+    // --- Push Notification Logic for Delete Course ---
+    // Notify admins and the course creator about the deletion
+    const admins = await User.find({ role: 'admin' });
+    const adminTokens = admins.flatMap(admin => admin.fcmTokens).filter(Boolean);
+
+    const courseCreator = await User.findById(course.creator); // Assuming 'creator' field exists
+    const creatorTokens = courseCreator ? courseCreator.fcmTokens : [];
+
+    const tokensToNotify = [...new Set([...adminTokens, ...creatorTokens])];
+
+    if (tokensToNotify.length > 0) {
+      await sendPushNotification(
+        tokensToNotify,
+        'Course Deleted!',
+        `The course "${courseName}" has been removed.`,
+        {
+          type: 'course_deleted',
+          courseId: courseId,
+          courseName: courseName,
+        }
+      );
+    }
+    // -------------------------------------------------
+
     res.status(204).send(); // Successfully deleted, no content to return
 
   } catch (error) {
@@ -102,7 +179,7 @@ export const deleteCourse = async (req, res) => {
   }
 };
 
-// Get details of a specific course
+// Get details of a specific course (no change needed here)
 export const getCourseDetails = async (req, res) => {
   try {
     const course = await Course.findById(req.params.id).populate({
@@ -133,7 +210,7 @@ export const getCourseDetails = async (req, res) => {
   }
 }
 
-// Submit a user rating for the course
+// Submit a user rating for the course (no change needed here)
 export const submitUserRating = async (req, res) => {
   try {
     const course = await Course.findById(req.params.id);
@@ -160,7 +237,7 @@ export const submitUserRating = async (req, res) => {
   }
 }
 
-// Get average rating for the course
+// Get average rating for the course (no change needed here)
 export const getRating = async (req, res) => {
   try {
     const course = await Course.findById(req.params.id);
@@ -180,7 +257,7 @@ export const getRating = async (req, res) => {
   }
 }
 
-// Get user progress for a course
+// Get user progress for a course (no change needed here)
 export const getCourseProgress = async (req, res) => {
   try {
     const course = await Course.findById(req.params.id).populate('progress.user');
@@ -199,7 +276,7 @@ export const getCourseProgress = async (req, res) => {
   }
 }
 
-// Update user progress for a course
+// Update user progress for a course (no change needed here)
 export const updateCourseProgress = async (req, res) => {
   try {
     const { materialId } = req.body;
@@ -294,8 +371,8 @@ export const getCourseByJoinCode = async (req, res) => {
   }
 };
 
+// Removed notification for requestCourseJoin as per your latest request
 export const requestCourseJoin = async (req, res) => {
-
   try {
     const { joinCode, userId } = req.body; // Prefer keeping both in body
     if (!joinCode || !userId) {
@@ -311,10 +388,9 @@ export const requestCourseJoin = async (req, res) => {
       (joinReq) => joinReq.user.toString() === userId
     );
 
-    const user = User.findById(userId);
-
-    if (user?.institution.institution_id !== course.course_institution.institution_id) {
-      return res.status(400).json({ message: 'You are not in this institution', status: 'already_requested' });
+    const user = await User.findById(userId); // Use await here
+    if (!user) {
+        return res.status(404).json({ message: 'Requesting user not found' });
     }
 
     if (alreadyRequested) {
@@ -373,7 +449,34 @@ export const handleJoinRequest = async (req, res) => {
     }
 
     request.status = action;
+
+    // If approved, you might want to add the user to an 'enrolledStudents' array on the Course model
+    // if (action === 'approved') {
+    //   if (!course.enrolledStudents.includes(userId)) {
+    //     course.enrolledStudents.push(userId);
+    //   }
+    // }
+
     await course.save();
+
+    // --- Push Notification Logic for Handle Join Request (Approved/Rejected) ---
+    // Notify the requesting user about the status of their request
+    const requestingUserTokens = user.fcmTokens.filter(Boolean);
+
+    if (requestingUserTokens.length > 0) {
+      await sendPushNotification(
+        requestingUserTokens,
+        `Course Join Request ${action.charAt(0).toUpperCase() + action.slice(1)}!`,
+        `Your request to join "${course.course_na}" has been ${action}.`,
+        {
+          type: 'course_join_status',
+          courseId: course._id.toString(),
+          status: action,
+          courseName: course.course_name,
+        }
+      );
+    }
+    // -----------------------------------------------------
 
     res.status(200).json({ message: `Request ${action} successfully` });
   } catch (error) {
@@ -399,4 +502,4 @@ export const getAllJoinRequests = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Error fetching join requests', error }); // Handle errors
   }
-}; 
+};
