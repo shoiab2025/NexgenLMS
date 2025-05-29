@@ -125,7 +125,7 @@ const CourseList = () => {
             <CardBody>
               <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap">
                 <CardTitle tag="h5" className="mb-2 mb-md-0">
-                  Course Management
+                  Courses
                 </CardTitle>
                 <div className="d-flex gap-2 flex-wrap">
                   <input

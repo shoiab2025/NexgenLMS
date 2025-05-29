@@ -53,16 +53,16 @@ table th {
   background-position: center center;
   background-repeat: no-repeat;
   background-blend-mode: overlay;
-  background-color: #0000008f;
-  padding: 10px 10px;
+  background-color: #000000a8;
   position: relative;
 }
 
 #home-list-course .card-body .card-title{
   color: #fff;
-  position: absolute;
   word-break: break-word;
+  position: absolute;
   bottom: 0;
+  font-weight: 700;
 }
 
 .truncate-3-lines {
@@ -411,7 +411,7 @@ a {
 }
 
 .filter-input-user {
-  width: 100%;
+  width: 150px;
   padding: 6px 8px;
   margin-top: 5px;
   border: 1px solid #ddd;
@@ -421,7 +421,7 @@ a {
 }
 
 .filter-select-user {
-  width: 100%;
+  width: 100px;
   padding: 6px 8px;
   margin-top: 5px;
   border: 1px solid #ddd;
@@ -657,7 +657,7 @@ label {
 
 .filter-input {
   display: block;
-  width: 100%;
+  width: 150px;
   margin-top: 4px;
   padding: 4px 8px;
   font-size: 0.9rem;

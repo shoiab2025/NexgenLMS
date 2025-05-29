@@ -117,7 +117,7 @@ const ApprovalManagement = () => {
                   <input
                     type="text"
                     className="filter-input"
-                    placeholder="Filter"
+                    placeholder="Filter by username"
                     value={usernameFilter}
                     onChange={(e) => setUsernameFilter(e.target.value)}
                   />
@@ -127,7 +127,7 @@ const ApprovalManagement = () => {
                   <input
                     type="text"
                     className="filter-input"
-                    placeholder="Filter"
+                    placeholder="Filter by course"
                     value={courseFilter}
                     onChange={(e) => setCourseFilter(e.target.value)}
                   />
@@ -137,7 +137,7 @@ const ApprovalManagement = () => {
                   <input
                     type="text"
                     className="filter-input"
-                    placeholder="Filter"
+                    placeholder="Filter by status"
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
                   />

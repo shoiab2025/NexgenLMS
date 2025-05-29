@@ -114,12 +114,12 @@ const CourseForm = () => {
         toast.success("Course updated successfully!");
       } else {
         console.log("This is the data of the course", courseData);
-        await axios.post("/api/courses/create-course", courseData);
+        // await axios.post("/api/courses/create-course", courseData);
         console.log("This is the data of the course", courseData);
 
         toast.success("Course created successfully!");
       }
-      navigate("/teacher/courses");
+      // navigate("/teacher/courses");
     } catch (error) {
       console.error("Error submitting form:", error);
       const errorMessage =
@@ -293,14 +293,15 @@ const CourseForm = () => {
               </FormGroup>
               <FormGroup>
                 <Label for="duration">Duration (hours)</Label>
-                <Input
-                  type="number"
-                  value={duration(courseData.subjects)}
+                 <Input
+                  type="text"
+                  value={courseData.duration}
+                  placeholder="Enter course duration"
                   className="form-control"
-                  onChange={(e) =>
-                    setCourseData({ ...courseData, duration: e.target.value })
-                  }
-                  readOnly={true}
+                  onChange={(e) => {
+
+                    setCourseData({ ...courseData, duration: e.target.value });
+                  }}
                 />
               </FormGroup>
               <FormGroup>

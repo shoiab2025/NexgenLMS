@@ -29,7 +29,7 @@ const UnitsPage = () => {
 
   return (
     <div className="container my-4">
-      <h3 className="mt-5 mb-3">Units {subjectData ? `of ${subjectData.name}`: ``}</h3>
+      <h3 className="mt-2 mb-3">Contents {subjectData ? `of ${subjectData.name}`: ``}</h3>
       {materialData === null ? (
         <div className="text-center">
           <Spinner color="primary" />

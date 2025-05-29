@@ -4,9 +4,9 @@ const StudentFooter = () => {
   const name = "LMS Platform";
   const website = "lmsplatform.com";
   return (
-    <footer className="bg-dark text-white text-center py-3">
+    <footer className="bg-primary text-white text-center py-3 justify-content-center align-items-center">
       
-      <p>2024 © All rights reserved by {website}</p>
+      <p>2024 © All rights reserved</p>
     </footer>
   )
 }

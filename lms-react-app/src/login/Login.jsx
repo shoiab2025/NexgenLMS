@@ -33,9 +33,9 @@ const Login = () => {
             className="bg-white my-5 mx-auto"
             style={{ borderRadius: "1rem", maxWidth: "500px" }}
           >
-            <MDBCardBody className="p-5 w-100 d-flex flex-column">
+            <MDBCardBody className="p-4 w-100 d-flex flex-column">
               <h2 className="fw-bold mb-2 text-center">Sign in</h2>
-              <p className="text-black-50 mb-3">
+              <p className="text-black-50 my-2">
                 Please enter your login and password!
               </p>
 
@@ -69,17 +69,17 @@ const Login = () => {
                   </p>
                 )}
 
-                <div className="d-flex justify-content-between">
+                <div className="d-lg-flex d-md-flex d-block justify-content-between">
                   <MDBCheckbox
                     name="flexCheck"
                     id="flexCheckDefault"
-                    className=""
+                    className="mb-2"
                     label="Remember password"
                   />
 
                   <Link
                     to="/signup"
-                    className="text-sm hover:underline hover:text-blue-600 inline-block"
+                    className="text-sm hover:underline hover:text-blue-600 inline-block mb-2"
                   >
                     {"Don't"} have an account?
                   </Link>

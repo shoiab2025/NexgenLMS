@@ -96,90 +96,97 @@ const TestOverview = () => {
   return (
     <div style={styles.container}>
       <div style={styles.headerContainer}>
-        <h5><b>Test Overview</b></h5>
+        <h5>
+          <b>Test Overview</b>
+        </h5>
         <button style={styles.addButton} onClick={handleAddTest}>
           Add Test
         </button>
       </div>
 
-      <table style={styles.table}>
-        <thead>
-          <tr>
-            <th style={styles.th}>Test Name</th>
-            <th style={styles.th}>Test Type</th>
-            <th style={styles.th}>Test Subject</th>
-            <th style={styles.th}>Test Lesson</th>
-            <th style={styles.th}>Created By</th>
-            <th style={styles.th}>Total Questions</th>
-            <th style={styles.th}>Status</th>
-            <th style={styles.th}>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentUserTests.length > 0 ? (
-            currentUserTests.map((test) => (
-              <tr key={test._id}>
-                <td style={styles.td}>{test.test_name}</td>
-                <td style={styles.td}>{test.test_type}</td>
-                <td style={styles.td}>
-                  {test.test_subject?.name || "Unknown Subject"}
-                </td>
-                <td style={styles.td}>
-                  {test.test_lesson?.name || "Unknown Lesson"}
-                </td>
-                <td style={styles.td}>
-                  {test.created_by?.username || "admin"}{" "}
-                  {test.created_by?.role ? `(${test.created_by.role})` : ""}
-                </td>
-                <td style={styles.td}>
-                  {test.test_questions?.length || "N/A"}
-                </td>
-                <td style={styles.td}>
-                  <div className="form-check form-switch">
-                    <label htmlFor="statusToggle" className="text-capitalize">
-                      {test.test_status}
-                    </label>
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      checked={test.test_status === "enabled"}
-                      onChange={(e) =>
-                        handleStatusChange(
-                          test._id,
-                          e.target.checked ? "enabled" : "disabled"
-                        )
-                      }
-                    />
-                  </div>
-                </td>
-                <td className="text-nowrap">
-                  <Button
-                    color="warning"
-                    className="me-2"
-                    size="sm"
-                    onClick={() => handleEdit(test._id)}
-                  >
-                    <i className="bi bi-pen-fill"></i>
-                  </Button>
-                  <Button
-                    color="danger"
-                    onClick={() => handleDelete(test._id)}
-                    size="sm"
-                  >
-                    <i className="bi bi-trash-fill"></i>
-                  </Button>
+      <div className="table-responsive">
+        <table style={styles.table}>
+          <thead>
+            <tr>
+              <th style={styles.th}>Test Name</th>
+              <th style={styles.th}>Test Type</th>
+              <th style={styles.th}>Test Subject</th>
+              <th style={styles.th}>Test Lesson</th>
+              <th style={styles.th}>Created By</th>
+              <th style={styles.th}>Total Questions</th>
+              <th style={styles.th}>Status</th>
+              <th style={styles.th}>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentUserTests.length > 0 ? (
+              currentUserTests.map((test) => (
+                <tr key={test._id}>
+                  <td style={styles.td}>{test.test_name}</td>
+                  <td style={styles.td}>{test.test_type}</td>
+                  <td style={styles.td}>
+                    {test.test_subject?.name || "Unknown Subject"}
+                  </td>
+                  <td style={styles.td}>
+                    {test.test_lesson?.name || "Unknown Lesson"}
+                  </td>
+                  <td style={styles.td}>
+                    {test.created_by?.username || "admin"}{" "}
+                    {test.created_by?.role ? `(${test.created_by.role})` : ""}
+                  </td>
+                  <td style={styles.td}>
+                    {test.test_questions?.length || "N/A"}
+                  </td>
+                  <td style={styles.td}>
+                    <div className="form-check form-switch">
+                      <label htmlFor="statusToggle" className="text-capitalize">
+                        {test.test_status}
+                      </label>
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        checked={test.test_status === "enabled"}
+                        onChange={(e) =>
+                          handleStatusChange(
+                            test._id,
+                            e.target.checked ? "enabled" : "disabled"
+                          )
+                        }
+                      />
+                    </div>
+                  </td>
+                  <td className="text-nowrap">
+                    <Button
+                      color="warning"
+                      className="me-2"
+                      size="sm"
+                      onClick={() => handleEdit(test._id)}
+                    >
+                      <i className="bi bi-pen-fill"></i>
+                    </Button>
+                    <Button
+                      color="danger"
+                      onClick={() => handleDelete(test._id)}
+                      size="sm"
+                    >
+                      <i className="bi bi-trash-fill"></i>
+                    </Button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan="8"
+                  style={{ textAlign: "left", padding: "20px" }}
+                >
+                  No tests available.
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="8" style={{ textAlign: "center", padding: "20px" }}>
-                No tests available.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

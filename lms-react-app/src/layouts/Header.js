@@ -33,10 +33,15 @@ const Header = () => {
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
+
+  const hideMobilemenu = () => {
+    document.getElementById("sidebarArea").classList.toggle("showSidebar");
+  };
+
   return (
     <Navbar color="white" dark expand="md" className="fix-header py-2">
       <div className="d-flex align-items-center">
-        <div className="d-lg-block d-none me-5 pe-3 site_name">
+        <div className="d-lg-block d-block me-5 pe-3 site_name">
           <Logo className="h-75" />
         </div>
         <NavbarBrand href="/">
@@ -47,27 +52,29 @@ const Header = () => {
           className=" d-lg-none"
           onClick={() => showMobilemenu()}
         >
+
           <i className="bi bi-list"></i>
         </Button>
       </div>
       <div className="hstack gap-2">
-        <Button
-          color="primary"
-          size="sm"
-          className="d-sm-block d-md-none"
-          onClick={Handletoggle}
-        >
-          {isOpen ? (
-            <i className="bi bi-x"></i>
-          ) : (
-            <i className="bi bi-three-dots-vertical"></i>
-          )}
-        </Button>
+        <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+          <DropdownToggle color="transparent">
+            <img
+              src={user1}
+              alt="profile"
+              className="rounded-circle"
+              width="40"
+            ></img>
+            <span className="mx-2 text-capitalize h6" > {authUser.user.username}</span>
+            <i class="fa-solid fa-caret-down"></i>
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem onClick={logout}>Logout</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
       </div>
 
       <Collapse navbar isOpen={isOpen}>
-        <Nav className="me-auto" navbar>
-        </Nav>
         <Dropdown isOpen={dropdownOpen} toggle={toggle}>
           <DropdownToggle color="transparent">
             <img

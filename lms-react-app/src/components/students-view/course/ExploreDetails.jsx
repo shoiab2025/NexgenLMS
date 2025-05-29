@@ -114,36 +114,23 @@ const Details = () => {
     <div className="container mt-4">
       {studentCourse && (
         <>
-          <h3 className="mt-5 mb-3">Subjects </h3>
-
-          <ListGroup>
-            <Row>
-              {studentCourse.subjects.map((subject, index) => (
-                <Col md="4">
-                  <ListGroupItem key={subject._id} className="mb-3 py-3">
-                    <Link className="sub_cards" to={`/course/units/${subject._id}`}>
-                      <h5 className="mb-0">{index + 1}. {subject.name}</h5>
-                    </Link>
-                  </ListGroupItem>
-                </Col>
-              ))}
-            </Row>
-          </ListGroup>
           <h3 className="mt-4">Course Detail</h3>
           <Card className="mb-4">
-            <CardBody className="p-4 d-flex justify-content-start">
-              <div className="mx-4">
+            <CardBody className="p-4 d-lg-flex d-md-flex d-block justify-content-start">
+              <div className="mx-1 mb-3 mx-lg-4 mx-md-4 mb-lg-3 mb-md-3 " >
                 <img
                   src={studentCourse.imageUrl}
                   alt={studentCourse.name}
                   className="card-img-top"
                   style={{
                     borderRadius: "8px",
-                    height: 250,
+                    objectFit: "contain",
+                    width: "100%",
+                    height: 300
                   }}
                 />
               </div>
-              <div className="">
+              <div className="align-self-center">
                 <CardTitle tag="h2" style={{ textDecoration: "none" }}>
                   {studentCourse.name} <span>{}</span>
                 </CardTitle>
@@ -161,8 +148,10 @@ const Details = () => {
                 >
                   Course Details
                 </CardSubtitle>
-                <CardText>{studentCourse.description}</CardText>
-                <CardText>
+                <CardText className="d-lg-block d-md-none d-none">
+                  {studentCourse.description}
+                </CardText>
+                <CardText className="mb-1">
                   <strong>Duration:</strong>{" "}
                   {covertTime(studentCourse.duration)}
                 </CardText>
@@ -172,57 +161,79 @@ const Details = () => {
               </div>
             </CardBody>
           </Card>
+          <h3 className="mt-5 mb-3">Subjects </h3>
 
           <ListGroup>
             <Row>
-              <Col md="12">
-                <h3 className="mt-4 mb-3">Review and Commands</h3>
-                <ListGroupItem className="mb-3">
-                  {studentCourse.ratings.map((rating) => (
-                    <div>
-                      <div className=" p-3">
-                        <div className="d-flex gap-2">
-                          <div className="text-capitalize align-self-center">
-                            {userData[rating.user]
-                              ? userData[rating.user].data.username
-                              : "Loading..."}
-                          </div>
-                          <div style={{ marginTop: "-2px" }}>
-                            <ReactStarRatings
-                              rating={
-                                CalculateRating(studentCourse.ratings) || 0
-                              }
-                              starRatedColor="gold"
-                              numberOfStars={5}
-                              name="rating"
-                              starDimension="20px"
-                              starSpacing="2px"
-                              className="align-self-center"
-                            />
-                          </div>
-                          <div className="ms-auto">
-                            {new Date(rating.createdAt).toLocaleDateString(
-                              "en-US",
-                              {
-                                year: "numeric",
-                                month: "long", // 'short' or 'numeric'
-                                day: "numeric",
-                              }
-                            )}
-                          </div>
-                        </div>
-                        <div className="mt-1 mb-0">
-                          <span style={{ fontSize: "14px" }}>Comments :</span>{" "}
-                          <br /> <p className="px-4 ">{rating.comment}</p>
-                        </div>
-                        <hr />
-                      </div>
-                    </div>
-                  ))}
-                </ListGroupItem>
-              </Col>
+              {studentCourse.subjects.map((subject, index) => (
+                <Col md="6" lg="4" sm ="12">
+                  <ListGroupItem key={subject._id} className="mb-3 py-3">
+                    <Link
+                      className="sub_cards"
+                      to={`/course/units/${subject._id}`}
+                    >
+                      <h5 className="mb-0">
+                        {index + 1}. {subject.name}
+                      </h5>
+                    </Link>
+                  </ListGroupItem>
+                </Col>
+              ))}
             </Row>
           </ListGroup>
+
+          {studentCourse.ratings.length > 0 && (
+            <ListGroup>
+              <Row>
+                <Col md="12">
+                  <h3 className="mt-4 mb-3">Review and Commands</h3>
+                  <ListGroupItem className="mb-3">
+                    {studentCourse.ratings.map((rating) => (
+                      <div>
+                        <div className=" p-3">
+                          <div className="d-flex gap-2">
+                            <div className="text-capitalize align-self-center">
+                              {userData[rating.user]
+                                ? userData[rating.user].data.username
+                                : "Loading..."}
+                            </div>
+                            <div style={{ marginTop: "-2px" }}>
+                              <ReactStarRatings
+                                rating={
+                                  CalculateRating(studentCourse.ratings) || 0
+                                }
+                                starRatedColor="gold"
+                                numberOfStars={5}
+                                name="rating"
+                                starDimension="20px"
+                                starSpacing="2px"
+                                className="align-self-center"
+                              />
+                            </div>
+                            <div className="ms-auto">
+                              {new Date(rating.createdAt).toLocaleDateString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "long", // 'short' or 'numeric'
+                                  day: "numeric",
+                                }
+                              )}
+                            </div>
+                          </div>
+                          <div className="mt-1 mb-0">
+                            <span style={{ fontSize: "14px" }}>Comments :</span>{" "}
+                            <br /> <p className="px-4 ">{rating.comment}</p>
+                          </div>
+                          <hr />
+                        </div>
+                      </div>
+                    ))}
+                  </ListGroupItem>
+                </Col>
+              </Row>
+            </ListGroup>
+          )}
         </>
       )}
     </div>

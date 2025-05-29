@@ -145,7 +145,7 @@ const UserList = () => {
                     name={header.toLowerCase()}
                     value={filters[header.toLowerCase()]}
                     onChange={handleFilterChange}
-                    placeholder="Filter"
+                    placeholder={`Filter by ${header}`}
                     className="filter-input-user"
                   />
                 </th>

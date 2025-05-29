@@ -69,7 +69,7 @@ const Starter = () => {
     <div>
       <Row className="cg-4 rg-2">
         {/* Courses Card */}
-        <Col sm="12" lg="3" xl="3" xxl="3">
+        <Col sm="6" lg="3" xl="3" xxl="3">
           <Card className="shadow border-0 rounded-4 p-3 position-relative overflow-hidden stat-card">
             <div className="d-flex align-items-center gap-3">
               <div className="icon-circle bg-light-primary rounded-circle d-flex justify-content-center align-items-center" style={{ width: 60, height: 60 }}>

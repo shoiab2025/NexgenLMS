@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+  import React, { useState, useMemo, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEdit,
@@ -182,7 +182,7 @@ const UserList = () => {
                     name={header.toLowerCase()}
                     value={filters[header.toLowerCase()]}
                     onChange={handleFilterChange}
-                    placeholder="Filter"
+                    placeholder={`Filter by ${header}`}
                     className="filter-input-user"
                   />
                 </th>
