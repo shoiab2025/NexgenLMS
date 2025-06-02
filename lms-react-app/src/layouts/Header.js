@@ -41,7 +41,7 @@ const Header = () => {
   return (
     <Navbar color="white" dark expand="md" className="fix-header py-2">
       <div className="d-flex align-items-center">
-        <div className="d-lg-block d-block me-5 pe-3 site_name">
+        <div className="d-lg-block d-block pe-3 site_name">
           <Logo className="h-75" />
         </div>
         <NavbarBrand href="/">
@@ -56,7 +56,7 @@ const Header = () => {
           <i className="bi bi-list"></i>
         </Button>
       </div>
-      <div className="hstack gap-2">
+      <div className="hstack gap-2 d-lg-block d-md-block d-none">
         <Dropdown isOpen={dropdownOpen} toggle={toggle}>
           <DropdownToggle color="transparent">
             <img
@@ -73,24 +73,6 @@ const Header = () => {
           </DropdownMenu>
         </Dropdown>
       </div>
-
-      <Collapse navbar isOpen={isOpen}>
-        <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-          <DropdownToggle color="transparent">
-            <img
-              src={user1}
-              alt="profile"
-              className="rounded-circle"
-              width="40"
-            ></img>
-            <span className="mx-2 text-capitalize h6" > {authUser.user.username}</span>
-            <i class="fa-solid fa-caret-down"></i>
-          </DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem onClick={logout}>Logout</DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-      </Collapse>
     </Navbar>
   );
 };

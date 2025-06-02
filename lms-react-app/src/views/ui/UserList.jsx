@@ -122,7 +122,7 @@ const UserList = () => {
             key={role}
             className={`tab-button-user ${
               selectedRoleTab === role ? "active-tab-user" : ""
-            }`}
+            } mb-2`}
             onClick={() => {
               setSelectedRoleTab(role);
               setCurrentPage(1);
@@ -139,7 +139,7 @@ const UserList = () => {
             <tr>
               {["Username", "Email", "Role"].map((header, idx) => (
                 <th key={idx} className="header-cell-user text-dark">
-                  {header}
+                  {header} <br />
                   <input
                     type="text"
                     name={header.toLowerCase()}
@@ -151,7 +151,7 @@ const UserList = () => {
                 </th>
               ))}
               <th className="header-cell-user">
-                Admin
+                Admin <br />
                 <select
                   name="isAdmin"
                   value={filters.isAdmin}
@@ -164,7 +164,7 @@ const UserList = () => {
                 </select>
               </th>
               <th className="header-cell-user">
-                Status
+                Status <br />
                 <select
                   name="isActive"
                   value={filters.isActive}

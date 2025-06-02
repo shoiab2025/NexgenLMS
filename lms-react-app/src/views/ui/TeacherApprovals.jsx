@@ -124,10 +124,10 @@ const TeacherApprovals = () => {
   console.log("the response", approvalList);
   return (
     <div className="approval-list">
-      <div className="d-flex justify-content-between align-item-center">
+      <div className="d-lg-flex d-md-flex d-block justify-content-between align-item-center">
         <div className="header-container">
-          <h2 className="list-heading-approval h4">
-            Teacher Approval Management
+          <h2 className="list-heading-approval h4  mb-0">
+            Teacher Approval
           </h2>
         </div>
 
@@ -137,7 +137,7 @@ const TeacherApprovals = () => {
             placeholder="Search Here ...."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="filter-input-global "
+            className="filter-input-global w-100"
           />
         </div>
       </div>

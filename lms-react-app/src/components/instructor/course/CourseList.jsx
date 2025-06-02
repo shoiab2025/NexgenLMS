@@ -17,28 +17,22 @@ import { useAuthcontext } from "../../../contexts/Authcontext";
 
 const CourseList = () => {
   const [courses, setCourses] = useState([]);
-  const [days, setDays] = useState(0);
-  const [weeks, setWeeks] = useState(0);
-  const [months, setMonths] = useState(0);
   const { authUser } = useAuthcontext();
   const [searchTerm, setSearchTerm] = useState("");
 
   const covertTime = (time) => {
     const hours = parseFloat(time);
-
-    const days = Math.floor(hours / 24); // Calculate the number of full days
-    const remainingHours = hours % 24; // Calculate the remaining hours after days
-
+    const days = Math.floor(hours / 24);
+    const remainingHours = hours % 24;
     if (days >= 7) {
       const weeks = days % 7;
       const week = Math.floor(days / 7);
       const remainingDays = days % 7;
       const cuntWeeks = week > 1 ? "weeks" : "week";
-
       if (remainingDays == 0) {
         return `${week} ${cuntWeeks}`;
       } else {
-        return `${week} ${week} and ${remainingDays} days`;
+        return `${week} ${cuntWeeks} and ${remainingDays} days`;
       }
     } else {
       if (days == 0) {
@@ -51,7 +45,6 @@ const CourseList = () => {
     }
   };
 
-  // Fetch courses when the component mounts
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -65,14 +58,13 @@ const CourseList = () => {
         toast.error(errorMessage);
       }
     };
-
     fetchCourses();
   }, []);
 
   const handleDelete = async (courseId) => {
     try {
       await axios.delete(`/api/courses/${courseId}`);
-      setCourses(courses.filter((course) => course._id !== courseId)); // Remove the course from state
+      setCourses(courses.filter((course) => course._id !== courseId));
       toast.success("Course deleted successfully!");
     } catch (error) {
       console.error("Error deleting course:", error);
@@ -90,8 +82,6 @@ const CourseList = () => {
         timeOfCourse += subject.duration;
       });
     }
-    console.log(timeOfCourse);
-
     return timeOfCourse;
   };
 
@@ -100,8 +90,6 @@ const CourseList = () => {
       const parsed = new URL(url);
       const isHttp =
         parsed.protocol === "http:" || parsed.protocol === "https:";
-
-      // Optional: Check if the URL seems to be pointing to an image
       const imagePattern = /\.(jpg|jpeg|png|gif|bmp|webp)(\?.*)?$/i;
       return (
         isHttp &&
@@ -118,33 +106,33 @@ const CourseList = () => {
   );
 
   return (
-    <Container className="mt-4">
+    <Container className="mt-2 container-fluid p-0">
       <Row>
-        <Col>
-          <Card>
+        <Col xs="12">
+          <Card className="mx-0">
             <CardBody>
-              <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+              <div className="d-lg-flex d-md-flex d-block flex-column flex-md-row justify-content-between align-items-stretch align-items-md-center mb-3 flex-wrap gap-2">
                 <CardTitle tag="h5" className="mb-2 mb-md-0">
                   Courses
                 </CardTitle>
-                <div className="d-flex gap-2 flex-wrap">
+                <div className="d-flex flex-column flex-sm-row gap-2 w-100 w-md-auto">
                   <input
                     type="text"
                     placeholder="Search courses..."
-                    className="form-control"
-                    style={{ maxWidth: "200px" }}
+                    className="form-control w-100"
+                    style={{ maxWidth: "300px", width: "100%" }}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
-                  <Link to="/instructor/create-course">
-                    <Button color="primary">Add New</Button>
+                  <Link to="/instructor/create-course" className="">
+                    <Button color="primary" className="w-100 w-sm-auto">Add New</Button>
                   </Link>
                 </div>
               </div>
 
               {courses.length > 0 ? (
-                <div className="table-resposive">
-                  <Table borderless>
+                <div className="table-responsive">
+                  <Table borderless className="mb-0">
                     <thead className="approval-table">
                       <tr>
                         <th className="text-nowrap">Image</th>
@@ -167,9 +155,9 @@ const CourseList = () => {
                               }
                               alt="Course Preview"
                               style={{
-                                width: "100px",
+                                width: "60px",
                                 height: "auto",
-                                maxHeight: "100px",
+                                maxHeight: "60px",
                                 objectFit: "contain",
                                 backgroundColor: "#ededed",
                                 padding: "5px",
@@ -185,14 +173,13 @@ const CourseList = () => {
                             {course.course_type}
                           </td>
                           <td className="text-nowrap">
-                            {covertTime(duration(course.subjects))}{" "}
-                            {console.log(covertTime(duration(course.subjects)))}
+                            {covertTime(duration(course.subjects))}
                           </td>
                           <td className="text-nowrap">
                             <Link to={`/instructor/edit-course/${course._id}`}>
                               <Button
                                 color="warning"
-                                className="me-2"
+                                className="me-2 mb-1 mb-md-0"
                                 size="sm"
                               >
                                 <i className="bi bi-pen-fill"></i>
