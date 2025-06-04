@@ -114,7 +114,7 @@ export const signInUser = async (req, res) => {
 
         const user = await User.findOne({
             $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }]
-        });
+        }).populate('institution');
 
         if (!user) {
             return res.status(401).json({ message: 'User not found' })
