@@ -370,6 +370,10 @@ export const handleJoinRequest = async (req, res) => {
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
+    if (!user.isActive) {
+      return res.status(403).json({ message: 'User is not active' });
+    }
+
     const request = course.joinRequests.find((r) => r.user.toString() === userId);
     if (!request) return res.status(404).json({ message: 'Join request not found' });
 
@@ -379,38 +383,18 @@ export const handleJoinRequest = async (req, res) => {
 
     request.status = action;
 
-    // If approved, you might want to add the user to an 'enrolledStudents' array on the Course model
-    // if (action === 'approved') {
-    //   if (!course.enrolledStudents.includes(userId)) {
-    //     course.enrolledStudents.push(userId);
-    //   }
-    // }
-
     await course.save();
 
     // --- Push Notification Logic for Handle Join Request (Approved/Rejected) ---
     // Notify the requesting user about the status of their request
-    const requestingUserTokens = user.fcmTokens.filter(Boolean);
-
-    if (requestingUserTokens.length > 0) {
-      await sendPushNotification(
-        requestingUserTokens,
-        `Course Join Request ${action.charAt(0).toUpperCase() + action.slice(1)}!`,
-        `Your request to join "${course.course_na}" has been ${action}.`,
-        {
-          type: 'course_join_status',
-          courseId: course._id.toString(),
-          status: action,
-          courseName: course.course_name,
-        }
-      );
-    }
-    // -----------------------------------------------------
-
+  
     res.status(200).json({ message: `Request ${action} successfully` });
   } catch (error) {
-    res.status(500).json({ message: 'Error handling request', error });
-  }
+console.error("Join request error:", error);
+res.status(500).json({ message: 'Error handling request', error: error.message });
+console.log(`Handling join request: courseId=${courseId}, userId=${userId}, action=${action}`);
+
+}
 };
 
 export const getAllJoinRequests = async (req, res) => {

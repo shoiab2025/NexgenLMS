@@ -52,7 +52,7 @@ const CourseForm = () => {
 
   const { courseId } = useParams();
   const navigate = useNavigate();
-
+  console.log("The auth user", authUser);
   useEffect(() => {
     if (courseId) {
       axios
@@ -219,7 +219,7 @@ const CourseForm = () => {
                         .toUpperCase()
                         .replace(/[^A-Z0-9]/g, "");
                       const uniqueSuffix = Date.now().toString(36).toUpperCase();
-                      const join_code = `${sanitizedName}-${uniqueSuffix}`;
+                      const join_code = `NCL1-${uniqueSuffix}`;
                       setCourseData({ ...courseData, name, join_code });
                     }}
                   />

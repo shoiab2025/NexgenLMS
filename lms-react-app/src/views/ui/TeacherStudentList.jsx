@@ -5,6 +5,7 @@ import {
   faTrash,
   faBan,
   faTrophy,
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -98,7 +99,7 @@ const UserList = () => {
   };
 
   const filteredUsers = useMemo(() => {
-    return usersData.filter((user) => {
+    return usersData.reverse().filter((user) => {
       const matchesFilters =
         (!filters.username ||
           user.username
@@ -108,7 +109,12 @@ const UserList = () => {
           user.email.toLowerCase().includes(filters.email.toLowerCase())) &&
         (!filters.role ||
           user.role.toLowerCase().includes(filters.role.toLowerCase())) &&
-        (filters.isActive === "false" ? !user.isActive : user.isActive);
+        (!filters.isAdmin ||
+          (filters.isAdmin === "true" && user.isAdmin) ||
+          (filters.isAdmin === "false" && !user.isAdmin)) &&
+        (!filters.isActive ||
+          (filters.isActive === "true" && user.isActive) ||
+          (filters.isActive === "false" && !user.isActive));
 
       const matchesTab =
         selectedRoleTab === "all" ||
@@ -176,7 +182,7 @@ const UserList = () => {
             <tr>
               {["Username", "Email", "Role"].map((header, idx) => (
                 <th key={idx} className="header-cell-user text-dark">
-                  {header}
+                  {header} <br />
                   <input
                     type="text"
                     name={header.toLowerCase()}
@@ -189,6 +195,7 @@ const UserList = () => {
               ))}
               <th className="header-cell-user">
                 Admin
+                <br />
                 <select
                   name="isAdmin"
                   value={filters.isAdmin}
@@ -202,6 +209,7 @@ const UserList = () => {
               </th>
               <th className="header-cell-user">
                 Status
+                <br />
                 <select
                   name="isActive"
                   value={filters.isActive}
@@ -254,12 +262,12 @@ const UserList = () => {
                     </button>
                     <button
                       onClick={() => blockUser(user)}
-                      className={`action-button-user block-user ${
+                      className={`action-button-user  ${
                         user.isActive ? "block" : "unblock"
-                      }`}
+                      }-user`}
                     >
                       <FontAwesomeIcon
-                        icon={user.isActive ? faBan : faTrophy}
+                        icon={user.isActive ? faBan : faCheck}
                       />
                     </button>
                   </td>

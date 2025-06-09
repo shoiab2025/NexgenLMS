@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getMaterialById } from "../../../service/baseService";
-import { Col, Row, Card, CardBody, CardTitle, Spinner } from "reactstrap";
+import { Col, Row, Card, CardBody, CardTitle, Spinner, Button } from "reactstrap";
 
 const MaterialPage = () => {
   const params = useParams();
+  const navigate = useNavigate();
   const [materialData, setMaterialData] = useState(null);
 
   const { id } = params;
@@ -21,12 +22,21 @@ const MaterialPage = () => {
 
   useEffect(() => {
     if (id) {
-      fetchMaterialById(id); // Fetch material when `id` is available
+      fetchMaterialById(id);
     }
   }, [id]);
 
+  // Helper function to extract Google Drive file ID
+  function getDriveId(url) {
+    const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+    return match ? match[1] : "";
+  }
+
   return (
     <div className="container my-4">
+      <Button color="secondary" className="mb-3" onClick={() => navigate(-1)}>
+        &larr; Back
+      </Button>
       <h3 className="mt-5 mb-3">
         {materialData ? `${materialData.name} Material - ${materialData.content_type}` : "Materials"}
       </h3>
@@ -35,7 +45,7 @@ const MaterialPage = () => {
         <div>No material available.</div>
       ) : materialData.content_type === "Video" ? (
         <Row>
-          <Col md="8" key={materialData._id} className="mb-3">
+          <Col md="12" key={materialData._id} className="mb-3">
             <div
               className="embed-responsive"
               style={{
@@ -46,10 +56,10 @@ const MaterialPage = () => {
                 maxWidth: "100%",
               }}
             >
-              <iframe
-                className="embed-responsive-item"
+              <video
                 src={materialData.content_url}
-                allowFullScreen
+                controls
+                controlsList="nodownload"
                 style={{
                   position: "absolute",
                   top: 0,
@@ -58,10 +68,10 @@ const MaterialPage = () => {
                   height: "100%",
                 }}
                 title="Video"
-              ></iframe>
+              ></video>
             </div>
           </Col>
-          <Col md="4" key={materialData._id} className="mb-3">
+          <Col md="8" key={materialData._id + "-details"} className="mb-3">
             <h5>Material Details:</h5>
             <div className="bg_description">
               <table className="table table-bordered bg_description">
@@ -73,16 +83,6 @@ const MaterialPage = () => {
                   <tr className="bg_description">
                     <td className="bg_description">Description</td>
                     <td className="bg_description">{materialData.description}</td>
-                  </tr>
-                  <tr className="bg_description">
-                    <td className="bg_description">Posted</td>
-                    <td className="bg_description">
-                      {new Date(materialData.createdAt).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
-                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -92,16 +92,21 @@ const MaterialPage = () => {
       ) : materialData.content_type === "PDF" ? (
         <Row>
           <Col md="12" key={materialData._id} className="mb-3">
-            {/* Add logic to embed PDF, for example using an iframe or PDF.js */}
-            <embed
-              src={materialData.content_url}
-              type="application/pdf"
+            <iframe
+              src={
+                materialData.content_url.includes("drive.google.com")
+                  ? `https://drive.google.com/file/d/${getDriveId(materialData.content_url)}/preview`
+                  : materialData.content_url
+              }
               width="100%"
               height="600px"
-            />
+              allow="autoplay"
+              title="PDF"
+              style={{ border: "none" }}
+              sandbox="allow-scripts allow-same-origin"
+            ></iframe>
           </Col>
-          
-          <Col md="4" key={materialData._id} className="mb-3">
+          <Col md="8" key={materialData._id + "-details"} className="mb-3">
             <h5>Material Details:</h5>
             <div className="bg_description">
               <table className="table table-bordered bg_description">
@@ -113,16 +118,6 @@ const MaterialPage = () => {
                   <tr className="bg_description">
                     <td className="bg_description">Description</td>
                     <td className="bg_description">{materialData.description}</td>
-                  </tr>
-                  <tr className="bg_description">
-                    <td className="bg_description">Posted</td>
-                    <td className="bg_description">
-                      {new Date(materialData.createdAt).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
-                    </td>
                   </tr>
                 </tbody>
               </table>

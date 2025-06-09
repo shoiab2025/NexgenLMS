@@ -26,7 +26,7 @@ const UserList = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get("/api/users/");
-        console.log("the response", response)
+        console.log("the response", response);
         setUsersData(response.data);
       } catch (error) {
         console.error("Error fetching courses:", error);
@@ -43,13 +43,17 @@ const UserList = () => {
   const blockUser = async (user) => {
     try {
       const updatedStatus = !user.isActive;
-      await axios.put(`/api/users/update-userStatus/${user._id}`, { isActive: updatedStatus });
+      await axios.put(`/api/users/update-userStatus/${user._id}`, {
+        isActive: updatedStatus,
+      });
       setUsersData((prev) =>
         prev.map((u) =>
           u._id === user._id ? { ...u, isActive: updatedStatus } : u
         )
       );
-      toast.success(`User has been ${updatedStatus ? "unblocked" : "blocked"} successfully.`);
+      toast.success(
+        `User has been ${updatedStatus ? "unblocked" : "blocked"} successfully.`
+      );
     } catch (error) {
       console.error("Error updating user status:", error);
       const errorMessage =
@@ -69,16 +73,24 @@ const UserList = () => {
     return usersData.reverse().filter((user) => {
       const matchesFilters =
         (!filters.username ||
-          user.username.toLowerCase().includes(filters.username.toLowerCase())) &&
+          user.username
+            .toLowerCase()
+            .includes(filters.username.toLowerCase())) &&
         (!filters.email ||
           user.email.toLowerCase().includes(filters.email.toLowerCase())) &&
         (!filters.role ||
           user.role.toLowerCase().includes(filters.role.toLowerCase())) &&
-        (filters.isActive === "false" ? !user.isActive : user.isActive);
- 
-      const matchesTab =
-        selectedRoleTab === "all" || user.role.toLowerCase() === selectedRoleTab || (selectedRoleTab === 'admin' ? user?.isAdmin : false);
+        (!filters.isAdmin ||
+          (filters.isAdmin === "true" && user.isAdmin) ||
+          (filters.isAdmin === "false" && !user.isAdmin)) &&
+        (!filters.isActive ||
+          (filters.isActive === "true" && user.isActive) ||
+          (filters.isActive === "false" && !user.isActive));
 
+      const matchesTab =
+        selectedRoleTab === "all" ||
+        user.role.toLowerCase() === selectedRoleTab ||
+        (selectedRoleTab === "admin" ? user?.isAdmin : false);
 
       return matchesFilters && matchesTab;
     });
@@ -128,7 +140,9 @@ const UserList = () => {
               setCurrentPage(1);
             }}
           >
-            {role === "all" ? "All" : role.charAt(0).toUpperCase() + role.slice(1)}
+            {role === "all"
+              ? "All"
+              : role.charAt(0).toUpperCase() + role.slice(1)}
           </button>
         ))}
       </div>
@@ -167,7 +181,7 @@ const UserList = () => {
                 Status <br />
                 <select
                   name="isActive"
-                  value={filters.isActive}
+                  value={filters.isActive || filters}
                   onChange={handleFilterChange}
                   className="filter-select-user"
                 >

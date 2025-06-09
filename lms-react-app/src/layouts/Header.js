@@ -31,22 +31,28 @@ const Header = () => {
     setIsOpen(!isOpen);
   };
   const showMobilemenu = () => {
-    document.getElementById("sidebarArea").classList.toggle("showSidebar");
+    document.getElementById("sidebarArea").classList.add("showSidebar");
+    document.addEventListener("mousedown", handleClickOutside);
   };
 
   const hideMobilemenu = () => {
-    document.getElementById("sidebarArea").classList.toggle("showSidebar");
+    document.getElementById("sidebarArea").classList.remove("showSidebar");
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+
+  const handleClickOutside = (event) => {
+    const sidebar = document.getElementById("sidebarArea");
+    if (sidebar && !sidebar.contains(event.target)) {
+      hideMobilemenu();
+    }
   };
 
   return (
     <Navbar color="white" dark expand="md" className="fix-header py-2">
-      <div className="d-flex align-items-center">
+      <div className="d-flex align-items-center justify-content-between w-100">
         <div className="d-lg-block d-block pe-3 site_name">
           <Logo className="h-75" />
         </div>
-        <NavbarBrand href="/">
-          <LogoWhite className=" d-lg-none" />
-        </NavbarBrand>
         <Button
           color="primary"
           className=" d-lg-none"
@@ -65,7 +71,7 @@ const Header = () => {
               className="rounded-circle"
               width="40"
             ></img>
-            <span className="mx-2 text-capitalize h6" > {authUser.user.username}</span>
+            <span className="m-2 text-capitalize h6" > {authUser.user.username}</span>
             <i class="fa-solid fa-caret-down"></i>
           </DropdownToggle>
           <DropdownMenu>

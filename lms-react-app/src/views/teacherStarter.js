@@ -17,6 +17,7 @@ import { courseListService } from "../service/baseService";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { AuthContext, useAuthcontext } from "../contexts/Authcontext";
+import Courses from "../components/courses/Courses";
 
 const Starter = () => {
   const { group, loading } = useGroup();
@@ -91,6 +92,11 @@ const Starter = () => {
           </Card>
         </Col>
 
+      </Row>
+      <Row className="cg-4 rg-2 mt-4">
+        <Col sm="12" lg="12" xl="12" xxl="12">
+          <Courses />
+        </Col>
       </Row>
     </div>
   );

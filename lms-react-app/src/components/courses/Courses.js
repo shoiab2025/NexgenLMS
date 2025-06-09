@@ -1,270 +1,141 @@
-import React, { useState } from 'react';
-import { Table, Button, Card, CardBody, CardTitle, CardSubtitle, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap';
-import user1 from "../../assets/images/users/user1.jpg";
-import user2 from "../../assets/images/users/user2.jpg";
-import user3 from "../../assets/images/users/user3.jpg";
-import user4 from "../../assets/images/users/user4.jpg";
-import user5 from "../../assets/images/users/user5.jpg";
+import React, { useEffect, useState } from 'react';
+import {
+    Card,
+    CardBody,
+    CardTitle,
+    Modal,
+    ModalHeader,
+    ModalBody,
+} from 'reactstrap';
 import { useCourse } from '../../hooks/Courses/useCourses';
-import { useCreateCourse } from '../../hooks/Courses/useAddCourses';
-import { useSubject } from '../../hooks/Subjects/useSubjects';
-
-const initialGroupsData = [
-    {
-        avatar: user1,
-        name: "Frontend Developers",
-        description: "Responsible for UI/UX",
-        duration: "6 months",
-        status: "Active",
-    },
-    {
-        avatar: user2,
-        name: "Backend Engineers",
-        description: "Handles server-side logic",
-        duration: "12 months",
-        status: "Active",
-    },
-    {
-        avatar: user3,
-        name: "QA Team",
-        description: "Testing and Quality Assurance",
-        duration: "3 months",
-        status: "Inactive",
-    },
-    {
-        avatar: user4,
-        name: "DevOps",
-        description: "Infrastructure automation",
-        duration: "9 months",
-        status: "Active",
-    },
-    {
-        avatar: user5,
-        name: "Design Team",
-        description: "Handles product design",
-        duration: "8 months",
-        status: "Active",
-    },
-];
+import { useAuthcontext } from '../../contexts/Authcontext';
 
 const Courses = () => {
-    const [groups, setGroups] = useState(initialGroupsData);
-    const [newGroup, setNewGroup] = useState({ name: '', description: '', duration: '', subject_ids: [], status: 'Active' });
-    const [editIndex, setEditIndex] = useState(null);  // To track editing group index
+    const { course } = useCourse();
+    const { authUser } = useAuthcontext();
+    const [yourCourses, setYourCourses] = useState([]);
+    const [selectedCourse, setSelectedCourse] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { createCourse } = useCreateCourse();
+    const [searchTerm, setSearchTerm] = useState('');
 
-    const toggleModal = () => setIsModalOpen(!isModalOpen);
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setNewGroup((prevGroup) => ({ ...prevGroup, [name]: value }));
-    };
-
-    // Add or edit group
-    const saveGroup = () => {
-        if (newGroup.name && newGroup.description && newGroup.duration && newGroup.subject_ids && newGroup.status) {
-            if (editIndex !== null) {
-                // Update existing group
-                const updatedGroups = [...groups];
-                updatedGroups[editIndex] = newGroup;
-                setGroups(updatedGroups);
-                // UpdateGroup(newGroup.name, newGroup.description, newGroup.duration, newGroup.status.toLowerCase(), newGroup._id);
-            } else {
-                setGroups((prevGroups) => [...prevGroups, newGroup]);
-                const duration = Number(newGroup.duration);
-                debugger;
-                createCourse(newGroup.name, newGroup.description, duration, newGroup.subject_ids, newGroup.status.toLowerCase());
-            }
-            setNewGroup({ name: '', description: '', duration: '', subject_ids: [], status: 'Active' });
-            setEditIndex(null);  // Reset edit index
-            toggleModal();
-        } else {
-            alert('Please fill all fields');
+    useEffect(() => {
+        if (course && authUser?.user?._id) {
+            const userCourses = course.filter(c => c.created_by === authUser.user._id);
+            setYourCourses(userCourses);
         }
+    }, [course, authUser]);
+
+    const openModal = (courseItem) => {
+        setSelectedCourse(courseItem);
+        setIsModalOpen(true);
     };
 
-    const handleSubjectChange = (e) => {
-        const selectedOptions = Array.from(e.target.selectedOptions);
-        const selectedValues = selectedOptions.map(option => option.value);
-        setNewGroup((prevGroup) => ({ ...prevGroup, subject_ids: selectedValues }));
+    const closeModal = () => {
+        setSelectedCourse(null);
+        setIsModalOpen(false);
     };
 
-    // Open modal for editing an existing group
-    const editGroup = (index) => {
-        setEditIndex(index);
-        setNewGroup(groups[index]);
-        toggleModal();
-    };
-
-    const { course, loading } = useCourse();
-    const { subject } = useSubject();
+    const filteredCourses = yourCourses?.filter(c =>
+        c.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
         <div>
-            <Card>
-                <CardBody>
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                        <div>
-                            <CardTitle tag="h5">Courses </CardTitle>
+            <Card className='bg-transparent shadow-none'>
+                <CardBody className='bg-transparent'>
+                    <div className="d-flex justify-content-between align-items-center mb-2">
+                        <CardTitle tag="h5">Courses</CardTitle>
+                        <div className="w-50">
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Search courses..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
                         </div>
-                        <Button
-                            color="primary"
-                            className="ms-auto"
-                            onClick={() => {
-                                setEditIndex(null);
-                                toggleModal();
-                            }}
-                        >
-                            Add Group
-                        </Button>
                     </div>
-                    <Table className="no-wrap mt-3 align-middle course-Table" responsive borderless>
-                        <thead>
-                            <tr className="bg-primary text-white">
-                                <th>Course</th>
-                                <th>Duration</th>
-                                <th>Subjects</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {course.length > 0 ? (
-                                course.map((course, index) => (
-                                    <tr key={index} className="border-top">
-                                        <td>
-                                            <div className="py-2">
-                                                {/* 
-              <img
-                src={group.avatar}
-                className="rounded-circle"
-                alt="avatar"
-                width="45"
-                height="45"
-              /> 
-            */}
-                                                <div>
-                                                    <h6 className="mb-0">{course.name}</h6>
-                                                    <span className="text-muted">{course.description}</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {
-                                                course.subject_ids && course.subject_ids.length > 0 ? (
-                                                    course.subject_ids.map((sub, index) => (
-                                                        <p key={index}>
-                                                            {sub.name}
-                                                            {index !== (course.subject_ids.length - 1) ? `,` : ``}
-                                                        </p>
-                                                    ))
-                                                ) : (
-                                                    <p>Subjects Not assigned</p>
-                                                )
-                                            }
 
-                                        </td>
-                                        <td>{course.duration} months</td>
-
-                                        <td>
-                                            {course.status === "active" ? (
-                                                <span className="p-2 bg-success rounded-circle d-inline-block ms-3"></span>
-                                            ) : (
-                                                <span className="p-2 bg-danger rounded-circle d-inline-block ms-3"></span>
-                                            )}
-                                        </td>
-                                        <td>
-                                            <Button color="warning" size="sm" className="me-2" onClick={() => editGroup(index)}>
-                                                Edit
-                                            </Button>
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="4" className="text-center">
-                                        No record found
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-
-                    </Table>
+                    <div className="row">
+                        {filteredCourses && filteredCourses.length > 0 ? (
+                            filteredCourses.map((item, index) => (
+                                <div
+                                    className="col-sm-6 col-md-4 col-lg-3 mb-4"
+                                    key={index}
+                                    onClick={() => openModal(item)}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <div
+                                        className="shadow rounded bg-white h-100"
+                                        style={{
+                                            border: item.status === 'active' ? '3px solid green' : '3px solid red',
+                                            overflow: 'hidden',
+                                        }}
+                                    >
+                                        <img
+                                            src={item.imageUrl}
+                                            alt={item.name}
+                                            style={{
+                                                width: '100%',
+                                                height: '150px',
+                                                objectFit: 'contain',
+                                                borderBottom: '1px solid #ddd',
+                                                borderTopLeftRadius: '5px',
+                                                borderTopRightRadius: '5px',
+                                                backgroundColor: 'rgb(146, 146, 199)',
+                                            }}
+                                        />
+                                        <div className="p-3">
+                                            <h5 className="text-primary mb-2">{item.name}</h5>
+                                            <p className="mb-1"><strong>Join Code:</strong> {item.join_code}</p>
+                                            <p className="mb-1"><strong>Duration:</strong> {item.duration} Hours</p>
+                                            <p className="mb-0"><strong>Subjects:</strong> {item.subjects?.length || 0}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <p>No courses found.</p>
+                        )}
+                    </div>
                 </CardBody>
             </Card>
 
-            {/* Modal for adding/editing a group */}
-            <Modal isOpen={isModalOpen} toggle={toggleModal}>
-                <ModalHeader toggle={toggleModal}>{editIndex !== null ? 'Edit Course' : 'Add New Course'}</ModalHeader>
+            {/* XXL Modal to display Subjects and Materials */}
+            <Modal isOpen={isModalOpen} toggle={closeModal} size="xl">
+                <ModalHeader toggle={closeModal}>
+                    {selectedCourse?.name} - Subjects
+                </ModalHeader>
                 <ModalBody>
-                    <FormGroup>
-                        <Label for="name">Course Name</Label>
-                        <Input
-                            type="text"
-                            name="name"
-                            value={newGroup.name}
-                            onChange={handleInputChange}
-                            placeholder="Enter course name"
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="description">Description</Label>
-                        <Input
-                            type="text"
-                            name="description"
-                            value={newGroup.description}
-                            onChange={handleInputChange}
-                            placeholder="Enter course description"
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="duration">Duration</Label>
-                        <Input
-                            type="text"
-                            name="duration"
-                            value={newGroup.duration}
-                            onChange={handleInputChange}
-                            placeholder="Enter duration"
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="subjects">Subjects</Label>
-                        <Input
-                            type="select"
-                            name="subject_ids"
-                            value={newGroup.subject_ids}
-                            onChange={handleSubjectChange}
-                            multiple
-                        >
-                            {subject && subject.length > 0 && subject.map((subject, index) => (
-                                <option key={index} value={subject._id}>
-                                    {subject.name}
-                                </option>
+                    {selectedCourse?.subjects?.length > 0 ? (
+                        <div className="row">
+                            {selectedCourse.subjects.map((subject, index) => (
+                                <div key={index} className="col-md-6 col-lg-4 mb-4 d-flex">
+                                    <div className="subject-card border p-3 rounded shadow-sm bg-light w-100 d-flex flex-column">
+                                        <h5 className="text-success">{subject.name}</h5>
+                                        <div className="flex-grow-1">
+                                            {subject.materials && subject.materials.length > 0 ? (
+                                                <ol className="ps-3">
+                                                    {subject.materials.map((mat, idx) => (
+                                                        <li key={idx}>
+                                                            <a href={`/course/materials/${mat._id}`} rel="noopener noreferrer">
+                                                                {mat.name.toUpperCase()} - {mat.content_type.toUpperCase()}
+                                                            </a>
+                                                        </li>
+                                                    ))}
+                                                </ol>
+                                            ) : (
+                                                <p className="text-muted">No materials available.</p>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
                             ))}
-                        </Input>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="status">Status</Label>
-                        <Input
-                            type="select"
-                            name="status"
-                            value={newGroup.status}
-                            onChange={handleInputChange}
-                        >
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
-                        </Input>
-                    </FormGroup>
+                        </div>
+                    ) : (
+                        <p>No subjects available.</p>
+                    )}
                 </ModalBody>
-                <ModalFooter>
-                    <Button color="primary" onClick={saveGroup}>
-                        {editIndex !== null ? 'Update Course' : 'Add Course'}
-                    </Button>
-                    <Button color="secondary" onClick={toggleModal}>
-                        Cancel
-                    </Button>
-                </ModalFooter>
             </Modal>
         </div>
     );

@@ -11,13 +11,15 @@ const ApprovalManagement = () => {
   const [usernameFilter, setUsernameFilter] = useState("");
   const [courseFilter, setCourseFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
-  const {authUser} = useAuthcontext();
+  const { authUser } = useAuthcontext();
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
         const response = await axios.get("/api/courses/");
-        const courses = response.data.filter((e) => e.created_by === authUser?.user?._id);
+        const courses = response.data.filter(
+          (e) => e.created_by === authUser?.user?._id
+        );
 
         const requests = courses.flatMap((course) =>
           (course.joinRequests || []).map((req) => ({
@@ -34,7 +36,8 @@ const ApprovalManagement = () => {
       } catch (error) {
         console.error("Error fetching courses:", error);
         toast.error(
-          error.response?.data?.message || "Error fetching courses. Please try again."
+          error.response?.data?.message ||
+            "Error fetching courses. Please try again."
         );
       } finally {
         setLoading(false);
@@ -42,7 +45,7 @@ const ApprovalManagement = () => {
     };
 
     fetchCourses();
-  }, []);
+  }, [authUser]);
 
   useEffect(() => {
     const filtered = allRequests.filter((req) => {
@@ -50,11 +53,14 @@ const ApprovalManagement = () => {
       const course = req.course?.toLowerCase() || "";
       const status = req.status?.toLowerCase() || "";
 
-      return (
-        username.includes(usernameFilter.toLowerCase()) &&
-        course.includes(courseFilter.toLowerCase()) &&
-        status.includes(statusFilter.toLowerCase())
-      );
+      const usernameMatch = username.includes(usernameFilter.toLowerCase());
+      const courseMatch = course.includes(courseFilter.toLowerCase());
+      const statusMatch =
+        !statusFilter || statusFilter.toLowerCase() === "all"
+          ? true
+          : status.includes(statusFilter.toLowerCase());
+
+      return usernameMatch && courseMatch && statusMatch;
     });
 
     setFilteredRequests(filtered);
@@ -65,7 +71,7 @@ const ApprovalManagement = () => {
       await SendRequest(req.courseId, req.user?._id, "approved");
       updateRequestStatus(req.id, "approved");
     } catch (err) {
-      toast.error("Error approving request");
+      console.error("Error approving request:", err);
     }
   };
 
@@ -74,7 +80,7 @@ const ApprovalManagement = () => {
       await SendRequest(req.courseId, req.user?._id, "rejected");
       updateRequestStatus(req.id, "rejected");
     } catch (err) {
-      toast.error("Error rejecting request");
+      console.error("Error rejecting request:", err);
     }
   };
 
@@ -86,14 +92,28 @@ const ApprovalManagement = () => {
 
   const SendRequest = async (courseId, userId, action) => {
     try {
-      const response = await axios.post("/api/courses/handle-join-request", {
-        courseId,
-        userId,
-        action,
-      });
+      if (!courseId || !userId || !action) {
+        throw new Error("Missing courseId, userId, or action");
+      }
+
+      const response = await axios.post(
+        "/api/courses/handle-join-request",
+        {
+          courseId,
+          userId,
+          action,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       toast.success("Request processed successfully");
       return response.data;
     } catch (error) {
+      console.error("SendRequest error:", error);
       toast.error(
         error.response?.data?.message || "Failed to process request."
       );

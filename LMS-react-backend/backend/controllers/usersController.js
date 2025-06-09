@@ -120,6 +120,10 @@ export const signInUser = async (req, res) => {
             return res.status(401).json({ message: 'User not found' })
         }
 
+        if(!user.isActive) {
+            return res.status(403).json({ message: 'User is not active' }); 
+        }
+
         console.log("the resonse", user);
 
         const isMatch = await bcrypt.compare(password, user.password)
