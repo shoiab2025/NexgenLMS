@@ -30,6 +30,7 @@ const TABS = {
 const CourseForm = () => {
   const [activeTab, setActiveTab] = useState(TABS.COURSE);
   const { authUser } = useAuthcontext();
+  const [loading, setLoading] = useState(false);
   const [courseData, setCourseData] = useState({
     name: "",
     description: "",
@@ -52,61 +53,90 @@ const CourseForm = () => {
 
   const { courseId } = useParams();
   const navigate = useNavigate();
-  console.log("The auth user", authUser);
+
   useEffect(() => {
-    if (courseId) {
-      axios
-        .get(`/api/courses/${courseId}`)
-        .then((response) => {
+    const fetchCourseData = async () => {
+      if (courseId) {
+        setLoading(true);
+        try {
+          const response = await axios.get(`/api/courses/${courseId}`);
           const fetchedCourseData = response.data;
-          if (!Array.isArray(fetchedCourseData.subjects)) {
-            fetchedCourseData.subjects = [];
-          }
-          setCourseData({
+
+          const processedData = {
             name: fetchedCourseData.name || "",
             description: fetchedCourseData.description || "",
             duration: fetchedCourseData.duration || "",
-            course_type: fetchedCourseData.course_type || "general",
             imageUrl: fetchedCourseData.imageUrl || "",
+            course_type: fetchedCourseData.course_type || "general",
             join_code: fetchedCourseData.join_code || "",
-            subjects: fetchedCourseData.subjects.map((subject) => ({
+            subjects: (Array.isArray(fetchedCourseData.subjects)
+              ? fetchedCourseData.subjects
+              : []
+            ).map(subject => ({
               _id: subject._id || "",
               name: subject.name || "",
               description: subject.description || "",
               duration: subject.duration || "",
-              materials:
-                Array.isArray(subject.materials) && subject.materials.length > 0
-                  ? subject.materials.map((material) => ({
-                      name: material.name || "",
-                      description: material.description || "",
-                      content_type: material.content_type || "",
-                      content_url: material.content_url || "",
-                    }))
-                  : [
-                      {
-                        name: "",
-                        description: "",
-                        content_type: "",
-                        content_url: "",
-                      },
-                    ],
-            })),
-          });
-        })
-        .catch((error) => {
+              materials: (Array.isArray(subject.materials) && subject.materials.length > 0
+                ? subject.materials.map(material => ({
+                  _id: material._id || "",
+                  name: material.name || "",
+                  description: material.description || "",
+                  content_type: material.content_type || "",
+                  content_url: material.content_url || "",
+                }))
+                : [{
+                  name: "",
+                  description: "",
+                  content_type: "",
+                  content_url: "",
+                }]
+              )
+            }))
+          };
+
+          if (processedData.subjects.length === 0) {
+            processedData.subjects = [{
+              name: "",
+              description: "",
+              duration: "",
+              materials: [{
+                name: "",
+                description: "",
+                content_type: "",
+                content_url: "",
+              }]
+            }];
+          }
+
+          setCourseData(processedData);
+        } catch (error) {
           toast.error("Failed to load course data. Please try again.");
-        });
-    }
+          console.error("Error fetching course:", error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchCourseData();
+    // eslint-disable-next-line
   }, [courseId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       if (courseId) {
         await axios.put(`/api/courses/update-course/${courseId}`, courseData);
         toast.success("Course updated successfully!");
       } else {
-        await axios.post("/api/courses/create-course", courseData);
+        const uniqueSuffix = Date.now().toString(36).toUpperCase();
+        const generatedJoinCode = `NCL1-${uniqueSuffix}`;
+        await axios.post("/api/courses/create-course", {
+          ...courseData,
+          join_code: generatedJoinCode,
+        });
         toast.success("Course created successfully!");
       }
       navigate("/teacher/courses");
@@ -115,19 +145,32 @@ const CourseForm = () => {
         error.response?.data?.message ||
         "Error submitting form. Please try again.";
       toast.error(errorMessage);
+      console.error("Error submitting course form:", error);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleCourseChange = (field, value) => {
+    setCourseData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubjectChange = (index, field, value) => {
     const updatedSubjects = [...courseData.subjects];
-    updatedSubjects[index][field] = value;
+    updatedSubjects[index] = {
+      ...updatedSubjects[index],
+      [field]: value
+    };
     setCourseData({ ...courseData, subjects: updatedSubjects });
   };
 
   const handleMaterialChange = (subjectIndex, materialIndex, field, value) => {
     const updatedSubjects = [...courseData.subjects];
     const updatedMaterials = [...updatedSubjects[subjectIndex].materials];
-    updatedMaterials[materialIndex][field] = value;
+    updatedMaterials[materialIndex] = {
+      ...updatedMaterials[materialIndex],
+      [field]: value
+    };
     updatedSubjects[subjectIndex].materials = updatedMaterials;
     setCourseData({ ...courseData, subjects: updatedSubjects });
   };
@@ -160,18 +203,41 @@ const CourseForm = () => {
     setCourseData({ ...courseData, subjects: updatedSubjects });
   };
 
+  const removeSubject = (subjectIndex) => {
+    setCourseData({
+      ...courseData,
+      subjects: courseData.subjects.filter((_, idx) => idx !== subjectIndex),
+    });
+  };
+
+  const removeMaterial = (subjectIndex, materialIndex) => {
+    const updatedSubjects = [...courseData.subjects];
+    updatedSubjects[subjectIndex].materials = updatedSubjects[subjectIndex].materials.filter(
+      (_, idx) => idx !== materialIndex
+    );
+    setCourseData({ ...courseData, subjects: updatedSubjects });
+  };
+
   const toggleTab = (tab) => {
     if (activeTab !== tab) {
       setActiveTab(tab);
     }
   };
 
+  if (loading && courseId) {
+    return <div className="container mt-4">Loading course data...</div>;
+  }
+
   return (
     <div className="container mt-4">
       <h2 className="mb-3" style={{ textDecoration: "none" }}>
         {courseId ? "Edit Course" : "Create Course"}
       </h2>
-      <Nav tabs className="flex-nowrap flex-md-wrap overflow-auto mb-3" style={{ WebkitOverflowScrolling: "touch" }}>
+      <Nav
+        tabs
+        className="flex-nowrap flex-md-wrap overflow-auto mb-3"
+        style={{ WebkitOverflowScrolling: "touch" }}
+      >
         <NavItem className="flex-fill text-center">
           <NavLink
             className={classnames({ active: activeTab === TABS.COURSE })}
@@ -210,23 +276,11 @@ const CourseForm = () => {
                   <Label for="name">Course Name</Label>
                   <Input
                     type="text"
+                    id="name"
                     value={courseData.name}
                     placeholder="Enter course name"
-                    className="form-control"
-                    onChange={(e) => {
-                      const name = e.target.value;
-                      const sanitizedName = name
-                        .toUpperCase()
-                        .replace(/[^A-Z0-9]/g, "");
-                      const uniqueSuffix = Date.now().toString(36).toUpperCase();
-                      const join_code = `NCL1-${uniqueSuffix}`;
-                      setCourseData({ ...courseData, name, join_code });
-                    }}
-                  />
-                  <Input
-                    type="hidden"
-                    value={courseData.join_code}
-                    className="form-control"
+                    onChange={(e) => handleCourseChange("name", e.target.value)}
+                    required
                   />
                 </FormGroup>
               </Col>
@@ -235,36 +289,24 @@ const CourseForm = () => {
                   <Label for="imageUrl">Image URL</Label>
                   <Input
                     type="text"
+                    id="imageUrl"
                     value={courseData.imageUrl}
-                    className="form-control"
+                    placeholder="Enter image URL"
                     onChange={(e) =>
-                      setCourseData({ ...courseData, imageUrl: e.target.value })
+                      handleCourseChange("imageUrl", e.target.value)
                     }
                   />
                 </FormGroup>
                 {courseData.imageUrl && (
                   <div className="image-preview mt-2">
                     <Label>Image Preview:</Label>
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "auto",
-                        maxHeight: "200px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        border: "1px solid #ddd",
-                        borderRadius: "4px",
-                        overflow: "hidden",
-                      }}
-                    >
+                    <div className="img-preview-container">
                       <img
-                        src={courseData.imageUrl.toString()}
+                        src={courseData.imageUrl}
                         alt="Course Preview"
-                        style={{
-                          maxWidth: "100%",
-                          maxHeight: "100%",
-                          objectFit: "contain",
+                        className="img-preview"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
                         }}
                       />
                     </div>
@@ -275,10 +317,17 @@ const CourseForm = () => {
             <FormGroup>
               <Label for="description">Description</Label>
               <ReactQuill
-                value={courseData.description || ""}
-                onChange={(value) =>
-                  setCourseData((prev) => ({ ...prev, description: value }))
-                }
+                value={courseData.description}
+                onChange={(value) => handleCourseChange("description", value)}
+                modules={{
+                  toolbar: [
+                    [{ header: [1, 2, false] }],
+                    ["bold", "italic", "underline", "strike", "blockquote"],
+                    [{ list: "ordered" }, { list: "bullet" }],
+                    ["link", "image"],
+                    ["clean"],
+                  ],
+                }}
               />
             </FormGroup>
             <Row>
@@ -287,16 +336,14 @@ const CourseForm = () => {
                   <Label for="course_type">Course Type</Label>
                   <Input
                     type="select"
-                    id={`material-content_type-${0}-${0}`}
-                    onChange={(e) =>
-                      setCourseData({
-                        ...courseData,
-                        course_type: e.target.value,
-                      })
-                    }
+                    id="course_type"
                     value={courseData.course_type}
+                    onChange={(e) =>
+                      handleCourseChange("course_type", e.target.value)
+                    }
+                    required
                   >
-                    <option value="">Select Content Type</option>
+                    <option value="">Select Course Type</option>
                     <option value="general">General</option>
                     {authUser?.user?.isApproved && (
                       <>
@@ -315,15 +362,20 @@ const CourseForm = () => {
               </Col>
               <Col xs="12" md="6">
                 <FormGroup>
-                  <Label for="duration">Duration (hours)</Label>
+                  <Label for="duration">Duration (Months)</Label>
                   <Input
-                    type="text"
+                    type="number"
+                    id="duration"
                     value={courseData.duration}
                     placeholder="Enter course duration"
-                    className="form-control"
                     onChange={(e) => {
-                      setCourseData({ ...courseData, duration: e.target.value });
+                      handleCourseChange(
+                        "duration",
+                        e.target.value === "" ? "" : parseFloat(e.target.value) || 0
+                      );
                     }}
+                    min="1"
+                    required
                   />
                 </FormGroup>
               </Col>
@@ -333,23 +385,19 @@ const CourseForm = () => {
           {/* Subjects Tab */}
           <TabPane tabId={TABS.SUBJECTS} className="p-2 p-md-4">
             {courseData.subjects.map((subject, subjectIndex) => (
-              <div key={subjectIndex} className="mb-3 border rounded p-2 p-md-3">
+              <div key={subject._id || subjectIndex} className="mb-3 border rounded p-2 p-md-3">
                 <div className="d-flex justify-content-between align-items-center mb-2">
                   <h5 className="mb-0">Subject {subjectIndex + 1}</h5>
-                  <Button
-                    color="danger"
-                    size="sm"
-                    onClick={() =>
-                      setCourseData({
-                        ...courseData,
-                        subjects: courseData.subjects.filter(
-                          (_, index) => index !== subjectIndex
-                        ),
-                      })
-                    }
-                  >
-                    <i className="bi bi-x-circle-fill"></i>
-                  </Button>
+                  {courseData.subjects.length > 1 && (
+                    <Button
+                      color="danger"
+                      size="sm"
+                      type="button"
+                      onClick={() => removeSubject(subjectIndex)}
+                    >
+                      <i className="bi bi-x-circle-fill"></i> Remove Subject
+                    </Button>
+                  )}
                 </div>
                 <FormGroup>
                   <Label for={`subject-name-${subjectIndex}`}>
@@ -366,6 +414,7 @@ const CourseForm = () => {
                         e.target.value
                       )
                     }
+                    required
                   />
                 </FormGroup>
                 <FormGroup>
@@ -373,7 +422,7 @@ const CourseForm = () => {
                     Subject Description
                   </Label>
                   <ReactQuill
-                    value={subject.description || ""}
+                    value={subject.description}
                     onChange={(value) =>
                       handleSubjectChange(subjectIndex, "description", value)
                     }
@@ -381,7 +430,7 @@ const CourseForm = () => {
                 </FormGroup>
                 <FormGroup>
                   <Label for={`subject-duration-${subjectIndex}`}>
-                    Subject Duration (hours)
+                    Subject Duration (Months)
                   </Label>
                   <Input
                     type="number"
@@ -391,43 +440,39 @@ const CourseForm = () => {
                       handleSubjectChange(
                         subjectIndex,
                         "duration",
-                        parseFloat(e.target.value) || 0
+                        e.target.value === "" ? "" : parseFloat(e.target.value) || 0
                       )
                     }
+                    min="1"
+                    required
                   />
                 </FormGroup>
               </div>
             ))}
-            <Button color="primary" block onClick={addSubject}>
-              <i className="bi bi-plus-circle-fill"></i> Add
+            <Button color="primary" block type="button" onClick={addSubject}>
+              <i className="bi bi-plus-circle-fill"></i> Add Subject
             </Button>
           </TabPane>
 
           {/* Materials Tab */}
           <TabPane tabId={TABS.MATERIALS} className="p-2 p-md-4">
             {courseData.subjects.map((subject, subjectIndex) => (
-              <div key={subjectIndex} className="mb-4 border rounded p-2 p-md-3">
-                <h5>{subject.name} Materials</h5>
+              <div key={subject._id || subjectIndex} className="mb-4 border rounded p-2 p-md-3">
+                <h5>{subject.name || `Subject ${subjectIndex + 1}`} Materials</h5>
                 {subject.materials.map((material, materialIndex) => (
-                  <div key={materialIndex} className="my-3 border-bottom pb-3">
+                  <div key={material._id || materialIndex} className="my-3 border-bottom pb-3">
                     <div className="d-flex justify-content-between align-items-center mb-2">
                       <span>Material {materialIndex + 1}</span>
-                      <Button
-                        color="danger"
-                        size="sm"
-                        onClick={() => {
-                          const updatedMaterials = subject.materials.filter(
-                            (_, index) => index !== materialIndex
-                          );
-                          handleSubjectChange(
-                            subjectIndex,
-                            "materials",
-                            updatedMaterials
-                          );
-                        }}
-                      >
-                        <i className="bi bi-x-circle-fill"></i>
-                      </Button>
+                      {subject.materials.length > 1 && (
+                        <Button
+                          color="danger"
+                          size="sm"
+                          type="button"
+                          onClick={() => removeMaterial(subjectIndex, materialIndex)}
+                        >
+                          <i className="bi bi-x-circle-fill"></i> Remove Material
+                        </Button>
+                      )}
                     </div>
                     <FormGroup>
                       <Label for={`material-name-${subjectIndex}-${materialIndex}`}>
@@ -445,6 +490,7 @@ const CourseForm = () => {
                             e.target.value
                           )
                         }
+                        required
                       />
                     </FormGroup>
                     <FormGroup>
@@ -452,7 +498,7 @@ const CourseForm = () => {
                         Material Description
                       </Label>
                       <Input
-                        type="text"
+                        type="textarea"
                         id={`material-description-${subjectIndex}-${materialIndex}`}
                         value={material.description}
                         onChange={(e) =>
@@ -481,12 +527,14 @@ const CourseForm = () => {
                             e.target.value
                           )
                         }
+                        required
                       >
                         <option value="">Select Content Type</option>
                         <option value="PDF">PDF</option>
                         <option value="Video">Video</option>
                         <option value="Document">Document</option>
                         <option value="Image">Image</option>
+                        <option value="Link">Link</option>
                       </Input>
                     </FormGroup>
                     <FormGroup>
@@ -494,7 +542,7 @@ const CourseForm = () => {
                         Content URL
                       </Label>
                       <Input
-                        type="text"
+                        type="url"
                         id={`material-content_url-${subjectIndex}-${materialIndex}`}
                         value={material.content_url}
                         onChange={(e) =>
@@ -505,6 +553,7 @@ const CourseForm = () => {
                             e.target.value
                           )
                         }
+                        required
                       />
                     </FormGroup>
                   </div>
@@ -512,16 +561,17 @@ const CourseForm = () => {
                 <Button
                   color="primary"
                   block
+                  type="button"
                   onClick={() => addMaterial(subjectIndex)}
                 >
-                  <i className="bi bi-plus-circle-fill"></i> Add
+                  <i className="bi bi-plus-circle-fill"></i> Add Material
                 </Button>
               </div>
             ))}
           </TabPane>
         </TabContent>
-        <Button color="success" type="submit" block className="mt-3">
-          {courseId ? "Update Course" : "Create Course"}
+        <Button color="success" type="submit" block className="mt-3" disabled={loading}>
+          {loading ? "Processing..." : (courseId ? "Update Course" : "Create Course")}
         </Button>
       </Form>
     </div>

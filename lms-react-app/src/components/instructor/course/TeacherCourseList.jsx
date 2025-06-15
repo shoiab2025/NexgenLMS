@@ -21,33 +21,7 @@ const CourseList = () => {
   const [weeks, setWeeks] = useState(0);
   const [months, setMonths] = useState(0);
   const { authUser } = useAuthcontext();
-  const covertTime = (time) => {
-    const hours = parseFloat(time);
 
-    const days = Math.floor(hours / 24); // Calculate the number of full days
-    const remainingHours = hours % 24; // Calculate the remaining hours after days
-
-    if (days >= 7) {
-      const weeks = days % 7;
-      const week = Math.floor(days / 7);
-      const remainingDays = days % 7;
-      const cuntWeeks = week > 1 ? "weeks" : "week";
-
-      if (remainingDays == 0) {
-        return `${week} ${cuntWeeks}`;
-      } else {
-        return `${week} ${week} and ${remainingDays} days`;
-      }
-    } else {
-      if (days == 0) {
-        return `${remainingHours} hours`;
-      } else if (remainingHours == 0) {
-        return `${days} days`;
-      } else {
-        return `${days} days and ${remainingHours} hours`;
-      }
-    }
-  };
 
   // Fetch courses when the component mounts
   useEffect(() => {
@@ -87,17 +61,7 @@ const CourseList = () => {
     }
   };
 
-  const duration = (courseSubjects) => {
-    let timeOfCourse = 0;
-    if (courseSubjects.length > 0) {
-      courseSubjects.forEach((subject) => {
-        timeOfCourse += subject.duration;
-      });
-    }
-    console.log(timeOfCourse);
 
-    return timeOfCourse;
-  };
 
   function isImageValid(url) {
     try {
@@ -138,7 +102,7 @@ const CourseList = () => {
                         <th className="text-nowrap">Name</th>
                         <th className="text-nowrap">JoinCode</th>
                         <th className="text-nowrap">Course Type</th>
-                        <th className="text-nowrap">Duration</th>
+                        <th className="text-nowrap">Duration(Months)</th>
                         <th className="text-nowrap">Actions</th>
                       </tr>
                     </thead>
@@ -172,8 +136,7 @@ const CourseList = () => {
                             {course.course_type}
                           </td>
                           <td className="text-nowrap">
-                            {covertTime(duration(course.subjects))}{" "}
-                            {console.log(covertTime(duration(course.subjects)))}
+                             {course.duration}
                           </td>
                           <td className="text-nowrap">
                             <Link to={`/teacher/edit-course/${course._id}`}>

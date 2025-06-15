@@ -288,7 +288,7 @@ const CourseForm = () => {
                 </Input>
               </FormGroup>
               <FormGroup>
-                <Label for="duration">Duration (hours)</Label>
+                <Label for="duration">Duration (Months)</Label>
                 <Input
                   type="number"
                   value={courseData.duration}
@@ -397,7 +397,7 @@ const CourseForm = () => {
                   </FormGroup>
                   <FormGroup>
                     <Label for={`subject-duration-${subjectIndex}`}>
-                      Subject Duration (hours)
+                      Subject Duration (Months)
                     </Label>
                     <Input
                       type="number"

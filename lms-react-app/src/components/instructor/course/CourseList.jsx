@@ -20,30 +20,7 @@ const CourseList = () => {
   const { authUser } = useAuthcontext();
   const [searchTerm, setSearchTerm] = useState("");
 
-  const covertTime = (time) => {
-    const hours = parseFloat(time);
-    const days = Math.floor(hours / 24);
-    const remainingHours = hours % 24;
-    if (days >= 7) {
-      const weeks = days % 7;
-      const week = Math.floor(days / 7);
-      const remainingDays = days % 7;
-      const cuntWeeks = week > 1 ? "weeks" : "week";
-      if (remainingDays == 0) {
-        return `${week} ${cuntWeeks}`;
-      } else {
-        return `${week} ${cuntWeeks} and ${remainingDays} days`;
-      }
-    } else {
-      if (days == 0) {
-        return `${remainingHours} hours`;
-      } else if (remainingHours == 0) {
-        return `${days} days`;
-      } else {
-        return `${days} days and ${remainingHours} hours`;
-      }
-    }
-  };
+
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -75,15 +52,7 @@ const CourseList = () => {
     }
   };
 
-  const duration = (courseSubjects) => {
-    let timeOfCourse = 0;
-    if (courseSubjects.length > 0) {
-      courseSubjects.forEach((subject) => {
-        timeOfCourse += subject.duration;
-      });
-    }
-    return timeOfCourse;
-  };
+
 
   function isImageValid(url) {
     try {
@@ -173,7 +142,7 @@ const CourseList = () => {
                             {course.course_type}
                           </td>
                           <td className="text-nowrap">
-                            {covertTime(duration(course.subjects))}
+                            {course.duration}
                           </td>
                           <td className="text-nowrap">
                             <Link to={`/instructor/edit-course/${course._id}`}>
