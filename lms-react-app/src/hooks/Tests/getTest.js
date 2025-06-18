@@ -34,7 +34,6 @@ export const useGetTests = ({id}) => {
             setTests(data);
         } catch (error) {
             console.error(error);
-            toast.error(error.message);
         } finally {
             setLoading(false);
         }

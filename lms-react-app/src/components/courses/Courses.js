@@ -88,7 +88,7 @@ const Courses = () => {
                                         <div className="p-3">
                                             <h5 className="text-primary mb-2">{item.name}</h5>
                                             <p className="mb-1"><strong>Join Code:</strong> {item.join_code}</p>
-                                            <p className="mb-1"><strong>Duration:</strong> {item.duration} Hours</p>
+                                            <p className="mb-1"><strong>Duration:</strong> {item.duration} Months</p>
                                             <p className="mb-0"><strong>Subjects:</strong> {item.subjects?.length || 0}</p>
                                         </div>
                                     </div>

@@ -38,10 +38,11 @@ const TestFormReact = () => {
 
   const { createTest } = useCreateTests();
   const { course } = useCourse();
+  const currentUserCourses = course.filter((crs) => crs.created_by === user?._id);
   const [subject, setSubject] = useState([]);
   console.log("Tests Data", tests)
   useEffect(() => {
-    if (tests?.data && !testForm.test_name) {
+    if (tests?.data && tests.data._id && !testForm.test_name) {
       const loadedSubjectId = tests.data.test_subject?._id;
       const loadedLessonId = tests.data.test_subject?._id;
       const selectedCourse = course.find(
@@ -219,9 +220,9 @@ const TestFormReact = () => {
                 handleInputChange("test_subject", e.target.value)
               }
             >
-              <option value="">Select Lesson</option>
+              <option value="">Select Subject</option>
 
-              {course.map((subject) => (
+              {currentUserCourses.map((subject) => (
                 <option
                   key={subject._id}
                   value={subject._id}
