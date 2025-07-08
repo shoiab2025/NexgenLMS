@@ -10,6 +10,7 @@ const TeacherApprovals = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const { authUser } = useAuthcontext();
+  const [usersData, setUsersData] = useState([]);
   const [filterStatus, setFilterStatus] = useState("all"); // all | approved | pending
 
   // Fetch institutions
@@ -58,8 +59,26 @@ const TeacherApprovals = () => {
     fetchApprovalsForInstitutions();
   }, [institution]);
 
+   useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get("/api/users/");
+        console.log("the response", response);
+        setUsersData(response.data);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+        const errorMessage =
+          error.response?.data?.message ||
+          "Error fetching courses. Please try again.";
+        toast.error(errorMessage);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   // Filter users based on global search query
-  const filteredList = approvalList?.filter((req) => {
+  const filteredList = usersData?.filter((req) => {
     const query = searchQuery.toLowerCase();
     const matchesSearch =
       req.username?.toLowerCase().includes(query) ||

@@ -57,6 +57,7 @@ const userSchema = new mongoose.Schema(
     },
     otherInstitution: {
       type: String,
+      default: null,
     },
     phoneNumber: { 
       type: Number,
@@ -103,7 +104,7 @@ const userSchema = new mongoose.Schema(
 // 🧠 Set `isApproved` based on role before saving
 userSchema.pre('save', function (next) {
   if (this.isApproved === null) { // Only apply default if not explicitly set
-    if (this.role === 'teacher') {
+    if (this.role === 'teacher') {z
       this.isApproved = false;
     } else {
       this.isApproved = true;

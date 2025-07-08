@@ -25,6 +25,7 @@ const Header = () => {
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const { logout, loading } = useLogout();
   const { authUser } = useAuthcontext();
+  console.log("authUser", authUser);
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   const Handletoggle = () => {

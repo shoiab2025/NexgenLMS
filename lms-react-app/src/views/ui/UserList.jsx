@@ -190,6 +190,8 @@ const UserList = () => {
                   <option value="false">Blocked</option>
                 </select>
               </th>
+              <th className="header-cell-user">Register</th>
+
               <th className="header-cell-user">Actions</th>
             </tr>
           </thead>
@@ -221,6 +223,9 @@ const UserList = () => {
                     >
                       {user.isActive ? "Active" : "Blocked"}
                     </span>
+                  </td>
+                  <td className="cell-user">
+                        <span>{new Date(user.createdAt).toLocaleDateString()}</span>
                   </td>
                   <td className="cell-user actions-cell-user text-nowrap">
                     <button
