@@ -19,11 +19,24 @@ const Courses = () => {
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
-        if (course && authUser?.user?._id) {
-            const userCourses = course.filter(c => c.created_by === authUser.user._id);
-            setYourCourses(userCourses);
-        }
+        if (!course || !authUser?.user?._id) return;
+
+        const createdByUserId = authUser.user._id;
+        const allowedCourseIds = new Set(authUser?.user?.institution?.course_access || []);
+
+        // Use a Set to avoid duplicates
+        const courseMap = new Map();
+
+        course.forEach(c => {
+            if (c.created_by === createdByUserId || allowedCourseIds.has(c._id)) {
+                courseMap.set(c._id, c); // Map ensures uniqueness by course ID
+            }
+        });
+
+        setYourCourses(Array.from(courseMap.values()));
     }, [course, authUser]);
+
+
 
     const openModal = (courseItem) => {
         setSelectedCourse(courseItem);
@@ -38,6 +51,8 @@ const Courses = () => {
     const filteredCourses = yourCourses?.filter(c =>
         c.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+
 
     return (
         <div>

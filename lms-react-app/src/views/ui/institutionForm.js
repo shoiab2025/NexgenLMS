@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useCourse } from "../../hooks/Courses/useCourses";
 
 const initialState = {
     institution_image: "",
@@ -36,6 +37,7 @@ const initialState = {
     reffered_by: "",
     status: "Pending",
     institution_management_access: [],
+    course_access: []
 };
 
 const InstitutionForm = () => {
@@ -43,6 +45,9 @@ const InstitutionForm = () => {
     const [coordinators, setCoordinators] = useState([]);
     const { id } = useParams();
     const navigate = useNavigate();
+    const { course, loading } = useCourse();
+    const filterCourses = course.filter((c) => c.course_type === 'general');
+
 
     // Fetch coordinators
     useEffect(() => {
@@ -53,22 +58,22 @@ const InstitutionForm = () => {
 
     // Fetch institution data for editing
     useEffect(() => {
-    if (id) {
-        axios.get(`/api/institution/${id}`)
-            .then(res => {
-                const data = res.data;
-                setFormData({
-                    ...data,
-                    institution_management_access: Array.isArray(data.institution_management_access)
-                        ? data.institution_management_access.map(user => user._id)
-                        : [],
-                    location: data.location || initialState.location,
-                    contact: data.contact || initialState.contact,
-                });
-            })
-            .catch(() => toast.error("Error loading institution"));
-    }
-}, [id]);
+        if (id) {
+            axios.get(`/api/institution/${id}`)
+                .then(res => {
+                    const data = res.data;
+                    setFormData({
+                        ...data,
+                        institution_management_access: Array.isArray(data.institution_management_access)
+                            ? data.institution_management_access.map(user => user._id)
+                            : [],
+                        location: data.location || initialState.location,
+                        contact: data.contact || initialState.contact,
+                    });
+                })
+                .catch(() => toast.error("Error loading institution"));
+        }
+    }, [id]);
 
 
     const handleChange = (e) => {
@@ -261,6 +266,48 @@ const InstitutionForm = () => {
                                     </Input>
                                 </FormGroup>
                             </Col>
+                            <Col md={4}>
+                                <FormGroup>
+                                    <Label>Course Access</Label>
+                                    <div
+                                        className="border border-1 p-2 overflow-auto"
+                                        style={{
+                                            height: "120px",
+                                            borderRadius: "0.375rem",
+                                            backgroundColor: "#fff"
+                                        }}
+                                    >
+                                        {course.map(crs => {
+                                            const isChecked = formData.course_access.includes(crs._id);
+                                            return (
+                                                <FormGroup check key={crs._id} className="mb-1">
+                                                    <Label check className="text-capitalize" style={{ cursor: "pointer" }}>
+                                                        <Input
+                                                            type="checkbox"
+                                                            value={crs._id}
+                                                            checked={isChecked}
+                                                            onChange={(e) => {
+                                                                const { checked, value } = e.target;
+                                                                const currentAccess = [...formData.course_access];
+
+                                                                const updatedAccess = checked
+                                                                    ? [...currentAccess, value]
+                                                                    : currentAccess.filter(id => id !== value);
+
+                                                                setFormData({ ...formData, course_access: updatedAccess });
+                                                            }}
+                                                        />{' '}
+                                                        {crs.name}
+                                                    </Label>
+                                                </FormGroup>
+                                            );
+                                        })}
+                                    </div>
+                                </FormGroup>
+                            </Col>
+
+
+
                         </Row>
 
                         <Button color="primary" type="submit" className="mt-3">
