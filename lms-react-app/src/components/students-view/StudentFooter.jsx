@@ -6,7 +6,7 @@ const StudentFooter = () => {
   return (
     <footer className="bg-primary text-white text-center py-3 justify-content-center align-items-center">
       
-      <p>2024 © All rights reserved</p>
+      <p>2025 © All rights reserved</p>
     </footer>
   )
 }

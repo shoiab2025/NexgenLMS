@@ -88,6 +88,7 @@ const Details = () => {
       }
     }
   };
+
   useEffect(() => {
     if (studentCourseId) fetchCourseDetails(id);
   }, [studentCourseId]);
@@ -114,60 +115,13 @@ const Details = () => {
     <div className="container mt-4">
       {studentCourse && (
         <>
-          <h3 className="mt-4">Course Detail</h3>
-          <Card className="mb-4">
-            <CardBody className="p-4 d-lg-flex d-md-flex d-block justify-content-start">
-              <div className="mx-1 mb-3 mx-lg-4 mx-md-4 mb-lg-3 mb-md-3 " >
-                <img
-                  src={studentCourse.imageUrl}
-                  alt={studentCourse.name}
-                  className="card-img-top"
-                  style={{
-                    borderRadius: "8px",
-                    objectFit: "contain",
-                    width: "100%",
-                    height: 300
-                  }}
-                />
-              </div>
-              <div className="align-self-center">
-                <CardTitle tag="h2" style={{ textDecoration: "none" }}>
-                  {studentCourse.name} <span>{}</span>
-                </CardTitle>
-                <ReactStarRatings
-                  rating={CalculateRating(studentCourse.ratings) || 0}
-                  starRatedColor="gold"
-                  numberOfStars={5}
-                  name="rating"
-                  starDimension="25px"
-                  starSpacing="2px"
-                />
-                <CardSubtitle
-                  className="mb-3 mt-4 text-muted custom-decaration "
-                  tag="h5"
-                >
-                  Course Details
-                </CardSubtitle>
-                <CardText className="d-lg-block d-md-none d-none">
-                  {studentCourse.description}
-                </CardText>
-                <CardText className="mb-1">
-                  <strong>Duration:</strong>{" "}
-                  {covertTime(studentCourse.duration)}
-                </CardText>
-                <CardText className="text-capitalize">
-                  <strong>Status:</strong> {studentCourse.status}
-                </CardText>
-              </div>
-            </CardBody>
-          </Card>
           <h3 className="mt-5 mb-3">Subjects </h3>
 
           <ListGroup>
             <Row>
               {studentCourse.subjects.map((subject, index) => (
-                <Col md="6" lg="4" sm ="12">
-                  <ListGroupItem key={subject._id} className="mb-3 py-3">
+                <Col md="4" lg="3" sm="6">
+                  <ListGroupItem key={subject._id} className="mb-3 py-3 rounded-1">
                     <Link
                       className="sub_cards"
                       to={`/course/units/${subject._id}`}
@@ -181,6 +135,66 @@ const Details = () => {
               ))}
             </Row>
           </ListGroup>
+          <Row>
+            <Col md="12">
+              <h3 className="mt-4">Course Detail</h3>
+              <Card className="mb-4">
+                <CardBody className="p-4 ">
+                  <div className="d-lg-flex d-md-flex d-block justify-content-start">
+                    <div className="mx-1 mb-3 mx-lg-4 mx-md-4 mb-lg-3 mb-md-3 " >
+                      <img
+                        src={studentCourse.imageUrl}
+                        alt={studentCourse.name}
+                        className="card-img-top"
+                        style={{
+                          borderRadius: "8px",
+                          objectFit: "contain",
+                          width: "100%",
+                          height: 300
+                        }}
+                      />
+                    </div>
+                    <div className="align-self-center">
+                      <CardTitle tag="h2" style={{ textDecoration: "none" }}>
+                        {studentCourse.name} <span>{ }</span>
+                      </CardTitle>
+                      <ReactStarRatings
+                        rating={CalculateRating(studentCourse.ratings) || 3.5}
+                        starRatedColor="gold"
+                        numberOfStars={5}
+                        name="rating"
+                        starDimension="25px"
+                        starSpacing="2px"
+                      />
+
+                      <div className="mt-2 px-2">
+
+                        <CardText className="mb-1">
+                          <strong>Duration:</strong>{" "}
+                          {covertTime(studentCourse.duration)}
+                        </CardText>
+                        <CardText className="text-capitalize">
+                          <strong>Status:</strong> {studentCourse.status}
+                        </CardText>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div className="description">
+                    <CardSubtitle
+                      className="mb-3 mt-4 text-muted custom-decaration "
+                      tag="h5"
+                    >
+                      Course Description
+                    </CardSubtitle>
+                    <CardText className="d-lg-block d-md-none d-none" dangerouslySetInnerHTML={{ __html: studentCourse.description }} />
+                  </div>
+                </CardBody>
+              </Card>
+
+            </Col>
+          </Row>
 
           {studentCourse.ratings.length > 0 && (
             <ListGroup>
