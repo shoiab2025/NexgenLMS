@@ -46,7 +46,13 @@ const InstitutionSchema = new Schema({
     created_by: {
         type: Schema.Types.ObjectId,
         ref: 'User'
-    }
+    },
+    course_access: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Course'
+        }
+    ]
 }, {
     timestamps: true // Optional: Adds createdAt and updatedAt
 });
