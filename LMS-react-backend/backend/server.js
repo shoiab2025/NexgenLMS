@@ -58,7 +58,7 @@ app.get('*', (req, res) => {
 })
 
 // Start the server after DB connects
-const PORT = process.env.PORT || 5000
+const PORT = 80;
 
 mangoDb().then(() => {
   app.listen(PORT, '0.0.0.0', () => {
