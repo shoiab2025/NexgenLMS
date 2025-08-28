@@ -6,7 +6,7 @@ const ContactUs = () => {
     const styles = {
         container: {
             padding: '40px',
-            backgroundColor: '#0147ab',
+            backgroundColor: '#85db51',
             color: '#fff',
             maxWidth: '100%',
             margin: '0 auto',

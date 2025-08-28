@@ -91,7 +91,7 @@ const Starter = () => {
           <Card className="shadow border-0 rounded-4 p-3 position-relative overflow-hidden stat-card">
             <div className="d-flex align-items-center gap-3">
               <div className="icon-circle bg-light-primary rounded-circle d-flex justify-content-center align-items-center" style={{ width: 60, height: 60 }}>
-                <RiBookOpenFill size={35} color="#0147ab" />
+                <RiBookOpenFill size={35} color="#85db51" />
               </div>
               <div>
                 <CardTitle tag="h6" className="fw-semibold text-secondary text-uppercase mb-1">
@@ -114,7 +114,7 @@ const Starter = () => {
             <div className="d-flex align-items-center gap-3">
               <div className="icon-circle bg-light-primary rounded-circle d-flex justify-content-center align-items-center" style={{ width: 60, height: 60 }}>
                 {/* Changed icon for Institutions */}
-                <svg fill="#0147ab" height="35" width="35" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
+                <svg fill="#85db51" height="35" width="35" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
                   viewBox="0 0 410 410" xmlSpace="preserve">
                   <g>
                     <path d="M268.912,79.489L205,62.817l-63.913,16.672v21.305H89.678v246.389h68.699v-77.189h38.285v77.189h16.674v-77.189h38.285
@@ -150,7 +150,7 @@ const Starter = () => {
           <Card className="shadow border-0 rounded-4 p-3 position-relative overflow-hidden stat-card">
             <div className="d-flex align-items-center gap-3">
               <div className="icon-circle bg-light-primary rounded-circle d-flex justify-content-center align-items-center" style={{ width: 60, height: 60 }}>
-                <RiTeamFill fill="#0147ab" size={35} />
+                <RiTeamFill fill="#85db51" size={35} />
               </div>
               <div>
                 <CardTitle tag="h6" className="fw-semibold text-secondary text-uppercase mb-1">
@@ -172,7 +172,7 @@ const Starter = () => {
           <Card className="shadow border-0 rounded-4 p-3 position-relative overflow-hidden stat-card">
             <div className="d-flex align-items-center gap-3">
               <div className="icon-circle bg-light-primary rounded-circle d-flex justify-content-center align-items-center" style={{ width: 60, height: 60 }}>
-                <RiTeamFill fill="#0147ab" size={35} />
+                <RiTeamFill fill="#85db51" size={35} />
               </div>
               <div>
                 <CardTitle tag="h6" className="fw-semibold text-secondary text-uppercase mb-1">
@@ -194,7 +194,7 @@ const Starter = () => {
           <Card className="shadow border-0 rounded-4 p-3 position-relative overflow-hidden stat-card">
             <div className="d-flex align-items-center gap-3">
               <div className="icon-circle bg-light-primary rounded-circle d-flex justify-content-center align-items-center" style={{ width: 60, height: 60 }}>
-                <RiGraduationCapFill fill="#0147ab" size={35} />
+                <RiGraduationCapFill fill="#85db51" size={35} />
               </div>
               <div>
                 <CardTitle tag="h6" className="fw-semibold text-secondary text-uppercase mb-1">
@@ -217,7 +217,7 @@ const Starter = () => {
             <div className="d-flex align-items-center gap-3">
               <div className="icon-circle bg-light-primary rounded-circle d-flex justify-content-center align-items-center" style={{ width: 60, height: 60 }}>
                 {/* Changed icon for Admins */}
-                <svg fill="#0147ab" height="35" width="35" viewBox="0 0 474.565 474.565" xmlns="http://www.w3.org/2000/svg">
+                <svg fill="#85db51" height="35" width="35" viewBox="0 0 474.565 474.565" xmlns="http://www.w3.org/2000/svg">
                   <g>
                     <path d="M255.204,102.3c-0.606-11.321-12.176-9.395-23.465-9.395C240.078,95.126,247.967,98.216,255.204,102.3z" />
                     <path d="M134.524,73.928c-43.825,0-63.997,55.471-28.963,83.37c11.943-31.89,35.718-54.788,66.886-63.826
@@ -273,7 +273,7 @@ const Starter = () => {
             <div className="d-flex align-items-center gap-3">
               <div className="icon-circle bg-light-primary rounded-circle d-flex justify-content-center align-items-center" style={{ width: 60, height: 60 }}>
                 {/* Changed icon for Coordinators */}
-                <svg fill="#0147ab" width="50" height="50" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <svg fill="#85db51" width="50" height="50" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                   <path d="M67.2251757,28.8925457 C60.803794,31.475647 57.4164154,37.7172558 57.0360849,48 L67.252035,48 C68.1401206,44.5495456 71.2723211,42 75,42 C79.418278,42 83,45.581722 83,50 C83,54.418278 79.418278,58 75,58 C71.2723211,58 68.1401206,55.4504544 67.252035,52 L57.0360849,52 C57.4164154,62.2827442 60.803794,68.524353 67.2251757,71.1074543 C68.0753298,67.6026091 71.2337289,65 75,65 C79.418278,65 83,68.581722 83,73 C83,77.418278 79.418278,81 75,81 C71.4173768,81 68.3847898,78.6450155 67.3658068,75.3986144 C58.2714555,72.6198798 53.4832533,64.6615559 53.0347583,52 L47,52 C45.8954305,52 45,51.1045695 45,50 C45,48.8954305 45.8954305,48 47,48 L53.0347583,48 L53.0347583,48 C53.4832533,35.3384441 58.2714555,27.3801202 67.3658068,24.6013856 C68.3847898,21.3549845 71.4173768,19 75,19 C79.418278,19 83,22.581722 83,27 C83,31.418278 79.418278,35 75,35 C71.2337289,35 68.0753298,32.3973909 67.2251757,28.8925457 Z M75,31 C77.209139,31 79,29.209139 79,27 C79,24.790861 77.209139,23 75,23 C72.790861,23 71,24.790861 71,27 C71,29.209139 72.790861,31 75,31 Z M75,77 C77.209139,77 79,75.209139 79,73 C79,70.790861 77.209139,69 75,69 C72.790861,69 71,70.790861 71,73 C71,75.209139 72.790861,77 75,77 Z M75,54 C77.209139,54 79,52.209139 79,50 C79,47.790861 77.209139,46 75,46 C72.790861,46 71,47.790861 71,50 C71,52.209139 72.790861,54 75,54 Z M45.0743802,68 L22.4628099,68 C19.9338843,68 18,65.6198347 18,62.9421488 C18.1487603,58.9256198 22.3140496,56.8429752 26.6280992,54.9090909 C29.6033058,53.5702479 30.0495868,52.5289256 30.0495868,51.1900826 C30.0495868,49.8512397 29.1570248,48.661157 28.2644628,47.768595 C26.4793388,46.1322314 25.5867769,43.9008264 25.5867769,41.2231405 C25.5867769,36.3140496 28.5619835,32 33.9173554,32 C39.2727273,32 42.2479339,36.3140496 42.2479339,41.2231405 C42.2479339,43.9008264 41.3553719,46.1322314 39.5702479,47.768595 C38.5289256,48.661157 37.785124,49.8512397 37.785124,51.1900826 C37.785124,52.3801653 38.231405,53.5702479 41.2066116,54.9090909 C45.5206612,56.8429752 49.6859504,58.9256198 49.8347107,62.9421488 C49.5371901,65.6198347 47.6033058,68 45.0743802,68 L45.0743802,68 Z" />
                 </svg>
               </div>

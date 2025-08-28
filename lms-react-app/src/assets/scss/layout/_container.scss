@@ -87,13 +87,13 @@ table th {
 h2, .custom-decaration {
  text-decoration: underline;
  text-underline-offset: 8px;
- text-decoration-color: #0147ab;
+ text-decoration-color: #85db51;
  text-decoration-thickness: percentage($number: 0.1);
  text-decoration-skip: random($limit: 1) ;
 }
 
 .nav-tabs .nav-item .active {
-  background-color: #0147ab;
+  background-color: #85db51;
   color: #fff;
 }
 
@@ -102,7 +102,7 @@ a {
 }
 
 .list-group-item:has(.sub_cards):hover, .unit-card .card-body:hover {
-  background-color: #0147ab;
+  background-color: #85db51;
   color: #ffffff !important;
 }
 
@@ -124,7 +124,7 @@ a {
   top: -20px;
   left:0;
   border-radius: 5px;
-  background-color: #0147ab;
+  background-color: #85db51;
 }
 
 .test-form-container {
@@ -446,7 +446,7 @@ a {
 /* this is approval styles*/
 
 :root {
-  --primary-color: #0147ab;
+  --primary-color: #85db51;
   --text-color: #333;
 }
 
@@ -574,7 +574,7 @@ a {
 }
 
 .tab-button-user.active-tab-user {
-  background-color: #0147ab;
+  background-color: #85db51;
   color: white;
 }
 
@@ -637,7 +637,7 @@ a {
 }
 
 button {
-  background-color: #0147ab;
+  background-color: #85db51;
   border: none;
   color: white;
   padding: 10px 22px;
@@ -648,11 +648,11 @@ button {
 }
 
 button:hover {
-  background-color: #0147ab;
+  background-color: #85db51;
 }
 
 label {
-  color: #0147ab;
+  color: #85db51;
 }
 
 .filter-input {
@@ -676,7 +676,7 @@ label {
   min-width: 80px;
 }
 .text-primary {
-  color: #0147ab !important;
+  color: #85db51 !important;
   text-emphasis: none;
   text-transform: capitalize;
 }

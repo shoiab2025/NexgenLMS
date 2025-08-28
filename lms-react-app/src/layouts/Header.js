@@ -63,7 +63,7 @@ const Header = () => {
           <i className="bi bi-list"></i>
         </Button>
       </div>
-      <div className="hstack gap-2 d-lg-block d-md-block d-none">
+      <div className="hstack gap-2 d-lg-block d-md-block d-none align-self-center">
         <Dropdown isOpen={dropdownOpen} toggle={toggle}>
           <DropdownToggle color="transparent">
             <img

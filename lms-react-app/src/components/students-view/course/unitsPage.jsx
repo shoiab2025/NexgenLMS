@@ -39,7 +39,7 @@ const UnitsPage = () => {
       ) : (
         <Row>
           {materialData.map((unit, index) => (
-            <Col md="4" key={unit._id} className="mb-3">
+            <Col md="3" key={unit._id} className="mb-3">
               <Card className="unit-card">
                 <CardBody>
                   <Link to={`/course/materials/${unit._id}`} className="text-decoration-none">

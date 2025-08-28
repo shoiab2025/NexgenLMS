@@ -32,13 +32,13 @@ const StudentHeader = () => {
   };
 
   return (
-    <Navbar color="white" expand="md" className="fix-header py-2">
-      <div className="d-flex align-items-center">
+    <Navbar color="white" expand="md" className="fix-header py-2 d-flex justify-content-between ">
+      <div className="d-flex align-items-center align-self-center">
         <div className="d-lg-block d-block me-5 pe-0 site_name">
           <Logo />
         </div>        
       </div>
-      <div className="hstack gap-2 me-3">
+      <div className="hstack gap-2 me-3 h-100 align-self-center">
           {authUser ? (
             <UncontrolledDropdown isOpen={dropdownOpen} toggle={toggle}>
               <DropdownToggle color="transparent" className="p-0">
@@ -58,8 +58,8 @@ const StudentHeader = () => {
               </DropdownMenu>
             </UncontrolledDropdown>
           ) : (
-            <Button color="light" onClick={() => navigate("/login")}>
-              Login
+            <Button color="primary py-2 px-2 w-100 text-white fw-bold" onClick={() => navigate("/login")}>
+              Login / Register
             </Button>
           )}
         </div>
