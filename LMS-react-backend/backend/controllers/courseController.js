@@ -152,11 +152,19 @@ export const submitUserRating = async (req, res) => {
       return res.status(400).json({ message: 'Rating must be between 1 and 5' });
     }
 
-    course.ratings.push({
-      user: req.user.id,
-      rating,
-      comment
-    });
+    // Find if user already rated
+    const existingIndex = course.ratings.findIndex(
+      (r) => r.user.toString() === req.user.id.toString()
+    );
+
+    if (existingIndex !== -1) {
+      // Update rating & comment
+      course.ratings[existingIndex].rating = rating;
+      course.ratings[existingIndex].comment = comment;
+    } else {
+      // Add new rating
+      course.ratings.push({ user: req.user.id, rating, comment });
+    }
 
     await course.save();
 
@@ -164,7 +172,7 @@ export const submitUserRating = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: error.message, error });
   }
-}
+};
 
 // Get average rating for the course (no change needed here)
 export const getRating = async (req, res) => {

@@ -104,7 +104,7 @@ const userSchema = new mongoose.Schema(
 // 🧠 Set `isApproved` based on role before saving
 userSchema.pre('save', function (next) {
   if (this.isApproved === null) { // Only apply default if not explicitly set
-    if (this.role === 'teacher') {z
+    if (this.role === 'teacher') {
       this.isApproved = false;
     } else {
       this.isApproved = true;

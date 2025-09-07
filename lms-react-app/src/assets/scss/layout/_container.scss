@@ -4,12 +4,17 @@
 
 body {
   overflow-x: hidden;
+  display: flex; // enable flexbox layout
+  flex-direction: column;
 }
+
 .contentArea {
   flex-grow: 1;
   max-width: 1300px;
   margin: 0 auto;
+  min-height: 100vh !important;
 }
+
 .card {
   box-shadow: $card-box-shadow;
   margin-bottom: 30px;
@@ -21,6 +26,7 @@ body {
   line-height: 40px;
   text-align: center;
   border-radius: 100%;
+
   &.lg-box {
     width: 60px;
     height: 60px;
@@ -28,9 +34,11 @@ body {
     line-height: 60px;
   }
 }
+
 .button-group .btn {
   margin: 3px;
 }
+
 table th {
   font-weight: 500;
 }
@@ -39,6 +47,7 @@ table th {
 .table>:not(:first-child) {
   border-top: 2px solid;
 }
+
 .table-borderless>:not(:first-child) {
   border-top-width: 0;
 }
@@ -57,7 +66,7 @@ table th {
   position: relative;
 }
 
-#home-list-course .card-body .card-title{
+#home-list-course .card-body .card-title {
   color: #fff;
   word-break: break-word;
   position: absolute;
@@ -67,7 +76,8 @@ table th {
 
 .truncate-3-lines {
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* Show only 3 lines */
+  -webkit-line-clamp: 3;
+  /* Show only 3 lines */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -84,12 +94,13 @@ table th {
   background-image: url('../../images/bg/code-8779051_1280.png');
 }
 
-h2, .custom-decaration {
- text-decoration: underline;
- text-underline-offset: 8px;
- text-decoration-color: #85db51;
- text-decoration-thickness: percentage($number: 0.1);
- text-decoration-skip: random($limit: 1) ;
+h2,
+.custom-decaration {
+  text-decoration: underline;
+  text-underline-offset: 8px;
+  text-decoration-color: #85db51;
+  text-decoration-thickness: percentage($number: 0.1);
+  text-decoration-skip: random($limit: 1);
 }
 
 .nav-tabs .nav-item .active {
@@ -101,13 +112,15 @@ a {
   text-decoration: none;
 }
 
-.list-group-item:has(.sub_cards):hover, .unit-card .card-body:hover {
+.list-group-item:has(.sub_cards):hover,
+.unit-card .card-body:hover {
   background-color: #85db51;
   color: #ffffff !important;
 }
 
 /* Target the h5 element inside .list-group-item when it is hovered */
-.list-group-item:has(.sub_cards):hover h5, .unit-card .card-body:hover .card-title {
+.list-group-item:has(.sub_cards):hover h5,
+.unit-card .card-body:hover .card-title {
   color: #ffffff !important;
 }
 
@@ -122,7 +135,7 @@ a {
 .iconBadge {
   position: absolute;
   top: -20px;
-  left:0;
+  left: 0;
   border-radius: 5px;
   background-color: #85db51;
 }
@@ -178,14 +191,16 @@ a {
   margin-block: 5px;
 }
 
-.form-input, .form-select {
+.form-input,
+.form-select {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-bottom: 10px;
 }
 
-.question-card, .test-form-container {
+.question-card,
+.test-form-container {
   border: 1px solid #ddd;
   padding: 15px;
   margin-bottom: 20px;
@@ -201,7 +216,8 @@ a {
   margin-bottom: 8px;
 }
 
-.test-button, .pagination-button-user {
+.test-button,
+.pagination-button-user {
   padding: 10px 15px;
   border: none;
   cursor: pointer;
@@ -265,7 +281,7 @@ a {
 }
 
 .table-header-user th {
-  background-color: #eee ;
+  background-color: #eee;
   color: #000;
   padding: 12px 15px;
   text-align: left;
@@ -297,19 +313,23 @@ a {
 }
 
 .role-student {
-  background-color: var(--primary-color); /* Gray */
+  background-color: var(--primary-color);
+  /* Gray */
 }
 
 .role-teacher {
-  background-color: #28a745; /* Green */
+  background-color: #28a745;
+  /* Green */
 }
 
 .role-admin {
-  background-color: #dc3545; /* Red */
+  background-color: #dc3545;
+  /* Red */
 }
 
 .role-coordinator {
-  background-color: #8a8a8a; /* Red */
+  background-color: #8a8a8a;
+  /* Red */
 }
 
 .admin-indicator-user {
@@ -665,7 +685,7 @@ label {
   border-radius: 6px;
 }
 
-.global-search-box input{
+.global-search-box input {
   width: 300px;
   padding-inline: 10px;
   border-radius: 5px;
@@ -675,6 +695,7 @@ label {
 .filter-buttons-approval button {
   min-width: 80px;
 }
+
 .text-primary {
   color: #85db51 !important;
   text-emphasis: none;
