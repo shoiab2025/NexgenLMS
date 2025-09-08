@@ -48,7 +48,7 @@ router.post('/create-course', async (req, res) => {
       duration: courseData.duration,
       imageUrl: courseData.imageUrl, 
       join_code: courseData.join_code || null,
-      course_type: courseData.course_type || 'general',
+      course_type: courseData.course_type || 'public',
       created_by: courseData.created_by || 'admin',
       subjects: [],
     });

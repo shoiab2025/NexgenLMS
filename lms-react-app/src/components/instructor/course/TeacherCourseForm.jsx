@@ -67,7 +67,7 @@ const CourseForm = () => {
             description: fetchedCourseData.description || "",
             duration: fetchedCourseData.duration || "",
             imageUrl: fetchedCourseData.imageUrl || "",
-            course_type: fetchedCourseData.course_type || "general",
+            course_type: fetchedCourseData.course_type || "public",
             join_code: fetchedCourseData.join_code || "",
             subjects: (Array.isArray(fetchedCourseData.subjects)
               ? fetchedCourseData.subjects
@@ -344,19 +344,9 @@ const CourseForm = () => {
                     required
                   >
                     <option value="">Select Course Type</option>
-                    <option value="general">General</option>
-                    {authUser?.user?.isApproved && (
-                      <>
-                        {authUser.user.institution?.type?.toLowerCase() ===
-                          "school" && <option value="school">School</option>}
-                        {authUser.user.institution?.type?.toLowerCase() ===
-                          "college" && <option value="college">College</option>}
-                        {authUser.user.institution?.type?.toLowerCase() ===
-                          "educational center" && (
-                          <option value="academic">Academic</option>
-                        )}
-                      </>
-                    )}
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                    
                   </Input>
                 </FormGroup>
               </Col>

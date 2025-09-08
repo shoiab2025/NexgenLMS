@@ -38,8 +38,8 @@ const courseSchema = new mongoose.Schema({
     },
     course_type: {
         type: String,
-        enum: ['general', 'academic', 'school', 'college'],
-        default: 'general',
+        enum: ['public', 'private'],
+        default: 'public',
     },
 
     course_institution: {

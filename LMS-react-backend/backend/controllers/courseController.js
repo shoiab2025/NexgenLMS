@@ -8,31 +8,41 @@ import User from '../models/userModel.js';
 // Get all courses (no change needed here)
 export const getAllCourses = async (req, res) => {
   try {
-    const courses = await Course.find().populate({
-      path: 'subjects',
-      populate: {
-        path: 'materials',
-        model: 'Material'
-      }
-    }).populate({
-      path: 'joinRequests',
-      populate: {
-        path: 'user',
-        model: 'User'
-      }
-    }).populate({
-      path: 'course_institution',
-      populate: {
-        path: 'institution',
-        model: 'Institution'
-      }
-    });
+    const courses = await Course.find()
+      .populate({
+        path: 'subjects',
+        populate: {
+          path: 'materials',
+          model: 'Material'
+        }
+      })
+      .populate({
+        path: 'joinRequests',
+        populate: {
+          path: 'user',
+          model: 'User',
+          populate: {
+            path: 'institution',
+            model: 'Institution',
+            select: 'name', // keep only needed fields
+          }
+        }
+      })
+      .populate({
+        path: 'course_institution',
+        populate: {
+          path: 'institution',
+          model: 'Institution'
+        }
+      });
+
     res.status(200).json(courses);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error fetching courses', details: error.message });
   }
 };
+
 
 // Create a course
 export const createCourse = async (req, res) => {
@@ -253,7 +263,7 @@ export const getCoursesByType = async (req, res) => {
   try {
     const { type } = req.params;
 
-    const allowedTypes = ['general', 'academic', 'school', 'college', 'institutional', 'free'];
+    const allowedTypes = ['public', 'private'];
     if (!allowedTypes.includes(type)) {
       return res.status(400).json({ message: 'Invalid course type' });
     }
@@ -327,7 +337,7 @@ export const requestCourseJoin = async (req, res) => {
 
     const user = await User.findById(userId); // Use await here
     if (!user) {
-        return res.status(404).json({ message: 'Requesting user not found' });
+      return res.status(404).json({ message: 'Requesting user not found' });
     }
 
     if (alreadyRequested) {
@@ -347,12 +357,21 @@ export const requestCourseJoin = async (req, res) => {
 export const getJoinRequestsForCourse = async (req, res) => {
   try {
     const course = await Course.findById(req.params.id)
-      .populate('joinRequests.user', 'username email role').populate({
+      .populate({
+        path: 'joinRequests.user',
+        select: 'username email role institution',
+        populate: {
+          path: 'institution',
+          model: 'Institution',
+          select: 'name address type', // pick fields you actually need
+        },
+      })
+      .populate({
         path: 'course_institution',
         populate: {
           path: 'institution',
-          model: 'Institution'
-        }
+          model: 'Institution',
+        },
       });
 
     if (!course) return res.status(404).json({ message: 'Course not found' });
@@ -367,6 +386,7 @@ export const getJoinRequestsForCourse = async (req, res) => {
     res.status(500).json({ message: 'Error fetching join requests', error });
   }
 };
+
 
 export const handleJoinRequest = async (req, res) => {
   try {
@@ -395,14 +415,14 @@ export const handleJoinRequest = async (req, res) => {
 
     // --- Push Notification Logic for Handle Join Request (Approved/Rejected) ---
     // Notify the requesting user about the status of their request
-  
+
     res.status(200).json({ message: `Request ${action} successfully` });
   } catch (error) {
-console.error("Join request error:", error);
-res.status(500).json({ message: 'Error handling request', error: error.message });
-console.log(`Handling join request: courseId=${courseId}, userId=${userId}, action=${action}`);
+    console.error("Join request error:", error);
+    res.status(500).json({ message: 'Error handling request', error: error.message });
+    console.log(`Handling join request: courseId=${courseId}, userId=${userId}, action=${action}`);
 
-}
+  }
 };
 
 export const getAllJoinRequests = async (req, res) => {

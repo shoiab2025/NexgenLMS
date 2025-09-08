@@ -26,7 +26,7 @@ const Home = () => {
 
   const { course, loading } = useCourse();
 
-  const firstFourCourses = course.filter((c) => c.course_type === 'general');
+  const firstFourCourses = course.filter((c) => c.course_type === 'public');
   const handleNavigation = (route) => {
     navigate(route);
   };
@@ -83,7 +83,7 @@ const Home = () => {
     <>
       {/* Featured Courses Section */}
       <Container className="mt-4">
-        <h2 className="text-center mb-4">General Courses</h2>
+        <h2 className="text-center mb-4">Public Courses</h2>
         <Row className="">
           {firstFourCourses.map((crs) => (
             <Col

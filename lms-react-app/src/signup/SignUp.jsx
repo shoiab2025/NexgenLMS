@@ -18,6 +18,7 @@ const SignUp = () => {
   const [inputs, setInputs] = useState({
     username: "",
     email: "",
+    phoneNumber: "",
     password: "",
     confirmPassword: "",
   });
@@ -70,6 +71,19 @@ const SignUp = () => {
                   value={inputs.email}
                   onChange={(e) => {
                     setInputs({ ...inputs, email: e.target.value });
+                  }}
+                />
+                <label htmlFor="username" className="form-label">
+                  Phone Number
+                </label>
+                <MDBInput
+                  wrapperClass="mb-4 w-100"
+                  id="formControlLg"
+                  type="text"
+                  size="lg"
+                  value={inputs.phoneNumber}
+                  onChange={(e) => {
+                    setInputs({ ...inputs, phoneNumber: e.target.value });
                   }}
                 />
                 <label htmlFor="username" className="form-label">

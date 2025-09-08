@@ -43,10 +43,14 @@ const initialState = {
 const InstitutionForm = () => {
     const [formData, setFormData] = useState(initialState);
     const [coordinators, setCoordinators] = useState([]);
+    const [admins, setAdmins] = useState([]);
     const { id } = useParams();
     const navigate = useNavigate();
     const { course, loading } = useCourse();
-    const filterCourses = course.filter((c) => c.course_type === 'general');
+    const filterCourses = course.filter((c) => c.course_type === 'public');
+   const adminIds = admins.map(a => a._id);
+const adminCourses = course.filter(c => adminIds.includes(c.created_by));
+
 
 
     // Fetch coordinators
@@ -55,6 +59,13 @@ const InstitutionForm = () => {
             .then(res => setCoordinators(res.data))
             .catch(() => toast.error("Error loading coordinators"));
     }, []);
+
+    useEffect(() => {
+        axios.get(`/api/users/role/admin`)
+            .then(res => setAdmins(res.data))
+            .catch(() => toast.error("Error loading coordinators"));
+    }, []);
+
 
     // Fetch institution data for editing
     useEffect(() => {
@@ -277,7 +288,7 @@ const InstitutionForm = () => {
                                             backgroundColor: "#fff"
                                         }}
                                     >
-                                        {course.map(crs => {
+                                        {adminCourses.map(crs => {
                                             const isChecked = formData.course_access.includes(crs._id);
                                             return (
                                                 <FormGroup check key={crs._id} className="mb-1">
