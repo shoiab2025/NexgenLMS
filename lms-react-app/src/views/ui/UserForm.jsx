@@ -64,11 +64,15 @@ const UserForm = ({ onSuccess }) => {
           ...user,
           password: "",
           phoneNumber: user.phoneNumber || "",
-          experience: user.experience || "",
+          experience: user.experience || 0,
           educationLevel: user.educationLevel || "",
+          expertise: user?.expertise || ""
         });
       });
     }
+
+
+    
   }, [id]);
 
   useEffect(() => {
@@ -78,20 +82,6 @@ const UserForm = ({ onSuccess }) => {
   }, []);
 
   const getFilteredInstitutions = () => {
-    const { role, educationLevel } = formData;
-
-    if (role === "teacher") {
-      return institutions.filter((i) => i.type.toLowerCase() === "college");
-    }
-
-    if (educationLevel === "school") {
-      return institutions.filter((i) => i.type.toLowerCase() === "school");
-    }
-
-    if (educationLevel === "college" || educationLevel === "graduated") {
-      return institutions.filter((i) => i.type.toLowerCase() === "college");
-    }
-
     return institutions;
   };
 
@@ -108,6 +98,8 @@ const UserForm = ({ onSuccess }) => {
 
     try {
       if (isEditMode) {
+        console.log("The format data", formData);
+        
         await axios.put(`/api/users/${id}`, formData);
         toast.success("User updated successfully!");
       } else {
@@ -121,7 +113,7 @@ const UserForm = ({ onSuccess }) => {
       toast.error("An error occurred. Please try again.");
     }
   };
-
+    console.log("The format data", formData);
   return (
     <form onSubmit={handleSubmit} className="user-form">
       <h3>{isEditMode ? "Edit User" : "Create New User"}</h3>
@@ -162,7 +154,7 @@ const UserForm = ({ onSuccess }) => {
           >
             <option value="">Select Institution</option>
             {getFilteredInstitutions().map((ins) => (
-              <option key={ins._id} value={ins.name}>
+              <option key={ins._id} value={ins._id}>
                 {ins.name}
               </option>
             ))}
@@ -244,7 +236,7 @@ const UserForm = ({ onSuccess }) => {
                 id="experience"
                 name="experience"
                 type="number"
-                value={formData.experience}
+                value={formData?.experience}
                 onChange={handleChange}
               />
             </div>
@@ -255,7 +247,7 @@ const UserForm = ({ onSuccess }) => {
                 id="expertise"
                 name="expertise"
                 type="text"
-                value={formData.expertise}
+                value={formData?.expertise}
                 onChange={handleChange}
               />
             </div>

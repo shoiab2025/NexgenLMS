@@ -63,6 +63,20 @@ const UserList = () => {
     }
   };
 
+  const deleteUser = async (user) => {
+    try {
+      await axios.delete(`/api/users/destroy/${user._id}`);
+      setUsersData((prev) => prev.filter((u) => u._id !== user._id));
+      toast.success("User has been deleted successfully.");
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      const errorMessage =
+        error.response?.data?.message || "Error deleting user. Please try again.";
+      toast.error(errorMessage);
+    }
+};
+
+
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
@@ -106,7 +120,6 @@ const UserList = () => {
   const editUser = (user) => {
     window.location.href = `/instructor/users/edit/${user._id}`;
   };
-  const deleteUser = (user) => console.log("Delete user:", user);
 
   const toggleBlockUser = (user) => {
     setUsersData((prev) =>
@@ -242,6 +255,14 @@ const UserList = () => {
                     >
                       <FontAwesomeIcon
                         icon={user.isActive ? faBan : faTrophy}
+                      />
+                    </button>
+                    <button
+                      onClick={() => deleteUser(user)}
+                      className={`action-button-user block-trash`}
+                    >
+                      <FontAwesomeIcon
+                        icon={faTrash}
                       />
                     </button>
                   </td>

@@ -20,9 +20,9 @@ router.get('/', authenticate, getUsers)
 
 router.get('/:id', getUser);
 
-router.get('/destroy_all', destroyAll)
+router.delete('/destroy_all', destroyAll)
 
-router.get('/destroy/:id', destroyByUserNameOrId)
+router.delete('/destroy/:id', destroyByUserNameOrId)
 
 router.get('/:id/courses', userCourses)
 

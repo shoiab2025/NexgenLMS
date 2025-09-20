@@ -27,7 +27,7 @@ router.put("/:id", updateTest);
 router.delete("/:id", deleteTest);
 
 // Get tests by type (pre-test or post-test)
-router.get("/type/:type", getTestByType);
+router.post("/type/:type", getTestByType);
 
 // update test status
 router.put("/test-status/:id", updateTestStatus)

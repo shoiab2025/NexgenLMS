@@ -76,10 +76,13 @@ export const deleteTest = async (req, res) => {
 // Get Tests by Type (pre-test / post-test)
 export const getTestByType = async (req, res) => {
     try {
-        const { type } = req.params;
-        const tests = await Test.find({ test_type: type })
+        const { type} = req.params;
+        const {course, subject} = req.body;
+        console.log({ test_type: type, test_subject: course, test_lesson: subject})
+        const tests = await Test.find({ test_type: type, test_subject: course, test_lesson: subject})
             .populate('test_subject')
             .populate('test_lesson');
+            console.log("Tests", tests)
         res.status(200).json({ success: true, data: tests });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });

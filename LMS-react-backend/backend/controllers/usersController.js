@@ -58,9 +58,10 @@ export const signUpUser = async (req, res) => {
             educationLevel, collegeDegree, customCollegeDegree, experience, expertise, profilePicture, preferences, role
         } = req.body;
 
-        console.log(username);
 
         if (!isValidEmail(email)) {
+            console.log("Invalid email");
+
             return res.status(400).json({ message: 'Invalid email format' });
         }
 
@@ -77,12 +78,14 @@ export const signUpUser = async (req, res) => {
 
         // confirm passowrd mismatch
         if (password !== confirmPassword) {
+             console.log("pasword doesnt match");
             return res.status(400).json({ message: 'Passwords do not match' })
         }
 
         // user already exists
         const user = await User.findOne({ $or: [{ username }, { email }] })
         if (user) {
+             console.log("user Exist");
             return res.status(400).json({ message: 'User already exists' })
         }
 
@@ -111,6 +114,7 @@ export const signUpUser = async (req, res) => {
 export const signInUser = async (req, res) => {
     try {
         const { usernameOrEmail, password } = req.body;
+        console.log(req.body)
 
         const user = await User.findOne({
             $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }]
@@ -171,7 +175,7 @@ export const destroyByUserNameOrId = async (req, res) => {
             user = await User.findById(id)
         }
 
-        user = await User.findOne({ username: id })
+        user = await User.findById(id)
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' })

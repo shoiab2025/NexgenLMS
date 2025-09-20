@@ -20,7 +20,7 @@ const TeacherApprovals = () => {
         const url =
           authUser?.user?.role === "coordinator"
             ? `/api/institution/managment/${authUser.user._id}/`
-            : `/api/institution`;
+            : `/api/institution/`;
         const res = await axios.get(url);
         setInstitution(res.data?.data || []);
       } catch (err) {

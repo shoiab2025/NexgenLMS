@@ -415,6 +415,13 @@ a {
 .block-user:hover {
   background-color: rgba(255, 193, 7, 0.1);
 }
+.block-trash {
+  color: #ff0000;
+}
+
+.block-trash:hover {
+  background-color: rgba(255, 0, 0, 0.1);
+}
 
 .unblock-user {
   color: #28a745;
