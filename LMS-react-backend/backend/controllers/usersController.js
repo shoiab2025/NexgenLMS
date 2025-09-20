@@ -97,7 +97,7 @@ export const signUpUser = async (req, res) => {
         const newUser = new User({ username, email, password: hashedPassword, isAdmin, phoneNumber, schoolClass, institution, educationLevel, collegeDegree, customCollegeDegree, experience, expertise, profilePicture, preferences, role: role })
         await newUser.save()
 
-        const populatedUser = await User.findById(newUser._id).populate('groups')
+        const populatedUser = await User.findById(newUser._id).populate('institution')
 
         if (newUser) {
             generatedTokenAndCookie(newUser, res)
