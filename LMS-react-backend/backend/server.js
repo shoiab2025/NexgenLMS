@@ -18,7 +18,6 @@ import UpdateFullCourse from './routes/updateFullCourse.js';
 import TestRoutes from './routes/testRoutes.js';
 import ResultRoutes from './routes/testSubmissionRoutes.js';
 import LeaderboardRoutes from './routes/leaderBoardRoutes.js';
-import TestSubmission from './routes/testSubmissionRoutes.js';
 import InstitutionRoutes from './routes/institutionRoutes.js';
 
 const app = express();
@@ -31,19 +30,31 @@ app.use(cors());
 // === API ROUTES ===
 app.use('/api/users', authRoutes);
 app.use('/api/groups', GroupRoutes);
-app.use('/api/courses', CoursesRoutes, UpdateFullCourse, CreateFullCourse);
+app.use('/api/courses', CoursesRoutes);
 app.use('/api/subjects', SubjectRoutes);
 app.use('/api/materials', MaterialRoutes);
 app.use('/api/tests', TestRoutes);
 app.use('/api/result', ResultRoutes);
-app.use('/api/testSubmission', TestSubmission);
 app.use('/api/leaderboard', LeaderboardRoutes);
 app.use('/api/institution', InstitutionRoutes);
 
 // === SERVE REACT FRONTEND BUILD ===
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Debug the path
+console.log('Current directory:', __dirname);
 const clientBuildPath = path.resolve(__dirname, '../../lms-react-app/build');
+console.log('Build path:', clientBuildPath);
+
+// Check if build directory exists
+import fs from 'fs';
+if (!fs.existsSync(clientBuildPath)) {
+  console.error(chalk.red('❌ React build directory not found at:', clientBuildPath));
+} else {
+  console.log(chalk.green('✅ React build directory found'));
+  console.log('Files in build directory:', fs.readdirSync(clientBuildPath));
+}
 
 app.use(express.static(clientBuildPath));
 
