@@ -139,6 +139,10 @@ const CourseForm = () => {
       const dataToSend = { ...courseData, created_by: authUser?.user };
       
       if (courseId) {
+            
+        const payload = JSON.stringify(dataToSend);
+        console.log('Payload size:', new Blob([payload]).size / (1024*1024), 'MB');
+        console.log('Payload length:', payload.length, 'characters');
         await axios.put(`/api/courses/update-course/${courseId}`, dataToSend);
         toast.success("Course updated successfully!");
       } else {
