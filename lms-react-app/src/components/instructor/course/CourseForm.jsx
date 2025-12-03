@@ -153,9 +153,6 @@ const CourseForm = () => {
       }
       navigate("/instructor/courses");
     } catch (error) {
-      const payload = JSON.stringify(dataToSend);
-      console.log('Payload size:', new Blob([payload]).size / (1024*1024), 'MB');
-      console.log('Payload length:', payload.length, 'characters');
       console.error("Error submitting form:", error);
       const errorMessage =
         error.response?.data?.message ||
