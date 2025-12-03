@@ -137,6 +137,9 @@ const CourseForm = () => {
       }
 
       const dataToSend = { ...courseData, created_by: authUser?.user };
+      const payload = JSON.stringify(dataToSend);
+      console.log('Payload size:', new Blob([payload]).size / (1024*1024), 'MB');
+      console.log('Payload length:', payload.length, 'characters');
       
       if (courseId) {            
         const payload = JSON.stringify(dataToSend);
