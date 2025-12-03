@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useStudentContext } from '../../../contexts/Student-context';
 import { courseListService } from '../../../service/baseService';
-import defaultIMG from "../../../assets/images/default_images/Skill Pointer.png"
+import defaultIMG from "../../../assets/images/default_images/images.jpg"
 import {
     Card,
     CardBody,

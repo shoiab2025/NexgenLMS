@@ -68,23 +68,6 @@ const Login = () => {
                     {error}
                   </p>
                 )}
-
-                <div className="d-lg-flex d-md-flex d-block justify-content-between">
-                  <MDBCheckbox
-                    name="flexCheck"
-                    id="flexCheckDefault"
-                    className="mb-2"
-                    label="Remember password"
-                  />
-
-                  <Link
-                    to="/signup"
-                    className="text-sm hover:underline hover:text-blue-600 inline-block mb-2"
-                  >
-                    {"Don't"} have an account?
-                  </Link>
-                </div>
-                <br />
                 <div className="d-flex justify-content-between my-1">
                   <MDBBtn
                     size="lg"

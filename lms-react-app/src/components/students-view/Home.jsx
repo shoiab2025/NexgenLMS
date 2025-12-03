@@ -12,7 +12,6 @@ import {
   Button,
 } from "reactstrap";
 import { useCourse } from "../../hooks/Courses/useCourses";
-import defaultIMG from "../../assets/images/default_images/Skill Pointer (1).png";
 import TestimonialSlider from "./TestimonialSlider";
 import AboutUs from "./About-us";
 import ContactUs from "./Contact-us";

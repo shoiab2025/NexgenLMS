@@ -14,7 +14,6 @@ import {
   Button,
 } from "reactstrap";
 import Logo from "./Logo";
-import { ReactComponent as LogoWhite } from "../assets/images/logos/materialprowhite.svg";
 import user1 from "../assets/images/users/user4.jpg";
 import useLogout from "../hooks/uselogout";
 import { useAuthcontext } from "../contexts/Authcontext";

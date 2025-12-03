@@ -2,47 +2,97 @@
 <html lang="en">
 
 <head>
+  <!-- Character Encoding -->
   <meta charset="utf-8" />
-  <link rel="icon" href="../src/assets/images/logos/logo.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#000000" />
-  <meta name="description" content="Web site created using create-react-app" />
-  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-  <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
+  
+  <!-- Viewport for Responsive Design -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
+  
+  <!-- Primary Meta Tags -->
+  <title>MindGym: Master Learning Like Never Before | Cognitive Training Platform</title>
+  <meta name="description" content="🚀 Unlock your brain's full potential! MindGym combines neuroscience with proven learning techniques to boost memory by 200%, sharpen critical thinking, and accelerate knowledge application. Start training your mind today!">
+  <meta name="keywords" content="learning techniques, memory improvement, critical thinking, neuroscience, cognitive training, study skills, brain training, knowledge retention, problem solving">
+  
+  <!-- Theme & Status Bar Colors -->
+  <meta name="theme-color" content="#4F46E5">
+  <meta name="msapplication-TileColor" content="#4F46E5">
+  
+  <!-- Favicons -->
+  <link rel="icon" href="%PUBLIC_URL%/beternal_logo.jpg" type="image/x-icon">
+  <link rel="shortcut icon" href="%PUBLIC_URL%/beternal_logo.jpg" type="image/x-icon">
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/beternal_logo.jpg">
+  
+  <!-- For Modern Browsers -->
+  <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/beternal_logo.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/beternal_logo.jpg">
+  <link rel="icon" type="image/svg+xml" href="%PUBLIC_URL%/beternal_logo.jpg">
+  
+  <!-- Windows Tiles -->
+  <meta name="msapplication-TileImage" content="%PUBLIC_URL%/beternal_logo.jpg">
+  
+  <!-- Apple Mobile Web App Capable -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MindGym">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nexgen-e.com/">
+  <meta property="og:title" content="MindGym: Master Learning Like Never Before">
+  <meta property="og:description" content="🚀 Neuroscience meets learning! Boost memory, critical thinking & problem-solving skills with our cognitive training platform. Join thousands mastering the art of learning!">
+  <meta property="og:image" content="%PUBLIC_URL%/beternal_logo.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="MindGym - Cognitive Learning Platform">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://nexgen-e.com/">
+  <meta name="twitter:title" content="MindGym: Master Learning Like Never Before">
+  <meta name="twitter:description" content="🧠 Train your brain! MindGym's neuroscience-backed techniques help you learn faster, remember more, and think smarter. Transform your learning journey today!">
+  <meta name="twitter:image" content="%PUBLIC_URL%/beternal_logo.jpg">
+  <meta name="twitter:creator" content="@mindgym">
+  <meta name="twitter:site" content="@mindgym">
+  
+  <!-- LinkedIn -->
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="Nexgen-E">
+  
+  <!-- Additional Meta Tags -->
+  <meta name="author" content="MindGym Team">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="copyright" content="Copyright © 2025 Beternal Techno Solution. All rights reserved.">
+  <meta name="language" content="English">
+  <meta name="rating" content="General">
+  
+  <!-- Mobile Specific -->
+  <meta name="format-detection" content="telephone=no">
+  <meta name="format-detection" content="date=no">
+  <meta name="format-detection" content="address=no">
+  <meta name="format-detection" content="email=no">
+  
+  <!-- PWA Manifest -->
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-  <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+  
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-      
-    -->
-  <title>NexGen for Generation Alpha</title>
+  
+  <!-- Stylesheets -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 
 <body>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <noscript>
+    <div style="padding: 20px; text-align: center; background: #f8f9fa;">
+      <h2>⚠️ JavaScript Required</h2>
+      <p>MindGym requires JavaScript to function properly. Please enable JavaScript in your browser to experience our cognitive training platform.</p>
+    </div>
+  </noscript>
   <div id="root"></div>
-  <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+  
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 </html>

@@ -81,8 +81,10 @@ const MaterialPage = () => {
                     <td className="bg_description">{materialData.name}</td>
                   </tr>
                   <tr className="bg_description">
-                    <td className="bg_description">Description</td>
-                    <td className="bg_description">{materialData.description}</td>
+                    <td className="bg_description">Poem</td>
+                    <td className="bg_description" dangerouslySetInnerHTML={{__html: materialData.description}}>
+
+                    </td>
                   </tr>
                 </tbody>
               </table>

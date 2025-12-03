@@ -1,7 +1,6 @@
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem } from "reactstrap";
 import { Link, useLocation } from "react-router-dom";
 import user1 from "../assets/images/users/user4.jpg";
-import probg from "../assets/images/bg/download.jpg";
 import navigation from '../json-datas/menu.json';
 import teacherNavigation from '../json-datas/teacher-menu.json';
 import coordinatorNavigation from '../json-datas/coordinator-menu.json'

@@ -2,6 +2,8 @@ import express from 'express';
 import { getAllCourses, createCourse, updateCourse, deleteCourse, getCourseDetails, submitUserRating, getRating, updateCourseProgress, getCourseProgress, getCoursesByType, getCourseByJoinCode, requestCourseJoin, getJoinRequestsForCourse, handleJoinRequest, getAllJoinRequests } from '../controllers/courseController.js';
 import validateCourseCreation from '../middleware/validateCourse.js';
 import authenticate from '../middleware/authenticate.js';
+import updateFullCourse from '../routes/updateFullCourse.js'; // Create this controller
+import createFullCourse from '../routes/createFullCourse.js'; // Create this controller
 
 const router = express.Router();
 
@@ -13,6 +15,12 @@ router.post('/', validateCourseCreation, createCourse);
 
 // PUT update a course
 router.put('/:id', updateCourse);
+
+// PUT update a full course
+router.put('/update-course/:courseId', updateFullCourse);
+
+// PUT create a full course
+router.put('/create-course/:courseId', createFullCourse);
 
 // DELETE a course
 router.delete('/:id', deleteCourse);

@@ -131,7 +131,8 @@ const CourseForm = () => {
         await axios.put(`/api/courses/update-course/${courseId}`, courseData);
         toast.success("Course updated successfully!");
       } else {
-        const uniqueSuffix = Date.now().toString(36).toUpperCase();
+        const getRandomLetter = () => String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        const uniqueSuffix = getRandomLetter() + getRandomLetter();
         const generatedJoinCode = `NCL1-${uniqueSuffix}`;
         await axios.post("/api/courses/create-course", {
           ...courseData,
